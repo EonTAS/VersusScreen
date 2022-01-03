@@ -544,12 +544,13 @@ EnemyLoop:
     li r28,0xA
     lis r22,0x0                              [R_PPC_ADDR16_HA(0, 11, "loc_805A00E0")]
     b loc_848
-loc_6F0:
+EnemyNameLoop:
     cmpwi r25,0x0
-    ble- loc_748
+    ble- loc_748 #if first character, skip
     subi r0,r24,0x1
     cmpw r25,r0
-    bge- loc_728
+    bge- loc_728 #if last character, say "AND"
+#say nothing as a comma
     lwz r3,heapVoiceScriptCount(r23)
     rlwinm r0,r3,3,0,28
     addi r3,r3,0x1
@@ -559,7 +560,7 @@ loc_6F0:
     stw r27,heapVoiceSFXID(r3)
     stw r28,heapVoiceSFXLength(r3)
     b loc_748
-EnemyNameLoop:
+loc_728:
     lwz r3,heapVoiceScriptCount(r23)
     rlwinm r0,r3,3,0,28
     addi r3,r3,0x1
