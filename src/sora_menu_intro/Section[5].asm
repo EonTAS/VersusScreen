@@ -29,14 +29,19 @@ ItrSimplPanel10String:
 extraStringList:
 .string "pos%02d"
 .p2align 2
+chrString:
 .string "chr"
 .p2align 2
+bigChrString:
 .string "Chr"
 .p2align 2
+entryString:
 .string "/menu/intro/enter/%s%04d.brres"
 .p2align 2
+itrSimpleTopNXString:
 .string "ItrSimple%s%04d_TopN__%d"
 .p2align 3
+itrSimpleTopN0String:
 .string "ItrSimple%s%04d_TopN__0"
 .p2align 2
 zeroString:

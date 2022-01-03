@@ -26,7 +26,7 @@
 .set heapEnemyTwoChar, 0xC0
 .set heapEnemyTwoType, 0xC4
 .set heapEnemyThreeChar, 0xC8
-.set heapEnemeyThreeType, 0xCC
+.set heapEnemyThreeType, 0xCC
 
 .set heapAllyCount, 0xD0
 .set heapAllyOneChar, 0xD4
@@ -1472,13 +1472,15 @@ loc_134C:
     addi r11,r1,0x30
     bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___savegpr_24")]
     lis r31,0x0                              [R_PPC_ADDR16_HA(13, 5, "commonBrresString")]
-    cmpwi r8,0x2
     addi r31,r31,0x0                         [R_PPC_ADDR16_LO(13, 5, "commonBrresString")]
+    cmpwi r8,0x2
     mr r24,r4
     mr r25,r5
     mr r26,r6
-    addi r30,r31,0xE8
-    addi r29,r31,0xEC
+    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 5, "chrString")]
+    addi r30,r30,0x0                         [R_PPC_ADDR16_LO(13, 5, "chrString")]
+    lis r29,0x0                              [R_PPC_ADDR16_HA(13, 5, "bigChrString")]
+    addi r29,r29,0x0                         [R_PPC_ADDR16_LO(13, 5, "bigChrString")]
     beq- loc_13B4
     bge- loc_1398
     cmpwi r8,0x0
@@ -1506,7 +1508,10 @@ loc_13C0:
     addi r27,r3,0x1
     mr r3,r24
     mr r5,r30
-    addi r4,r31,0xF0
+    
+    lis r4,0x0                              [R_PPC_ADDR16_HA(13, 5, "entryString")]
+    addi r4,r4,0x0                         [R_PPC_ADDR16_LO(13, 5, "entryString")]
+
     mr r6,r27
     crclr 6
     bl __unresolved                          [R_PPC_REL24(0, 4, "printf__sprintf")]
@@ -1514,13 +1519,15 @@ loc_13C0:
     mr r5,r29
     mr r6,r27
     mr r7,r28
-    addi r4,r31,0x110
+    lis r4,0x0                              [R_PPC_ADDR16_HA(13, 5, "itrSimpleTopNXString")]
+    addi r4,r4,0x0                         [R_PPC_ADDR16_LO(13, 5, "itrSimpleTopNXString")]
     crclr 6
     bl __unresolved                          [R_PPC_REL24(0, 4, "printf__sprintf")]
     mr r3,r26
     mr r5,r29
     mr r6,r27
-    addi r4,r31,0x130
+    lis r4,0x0                              [R_PPC_ADDR16_HA(13, 5, "itrSimpleTopN0String")]
+    addi r4,r4,0x0                         [R_PPC_ADDR16_LO(13, 5, "itrSimpleTopN0String")]
     crclr 6
     bl __unresolved                          [R_PPC_REL24(0, 4, "printf__sprintf")]
     addi r11,r1,0x30
