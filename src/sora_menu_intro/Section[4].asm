@@ -1,10 +1,14 @@
-loc_0:
-        .4byte 0xFFFFFFFF
+fighterTypeSFX:
+#standard
+        .4byte 0xFFFFFFFF #nosfx
         .4byte 0x00000000
-        .4byte 0xFFFFFFFF
+#double
+        .4byte 0xFFFFFFFF #nosfx
         .4byte 0x00000000
+#giant
         .4byte 0x0000203F
         .4byte 0x00000027
+#metal
         .4byte 0x00002040
         .4byte 0x00000031
 loc_20:
