@@ -1,4 +1,4 @@
-fighterTypeSFX:
+fighterTypeSFXTable:
 #standard
         .4byte 0xFFFFFFFF #nosfx
         .4byte 0x00000000
@@ -11,27 +11,30 @@ fighterTypeSFX:
 #metal
         .4byte 0x00002040
         .4byte 0x00000031
-loc_20:
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "loc_64")]
-        .4byte 0x00002100
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "loc_80")]
-        .4byte 0x01011000
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "loc_98")]
-        .4byte 0x02021100
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "loc_B0")]
-        .4byte 0x03031F00
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "loc_C8")]
-        .4byte 0x0F0F2000
-loc_48:
-        .4byte 0x3F800000
-loc_4C:
-        .4byte 0x00000000
-        .4byte 0x40400000
-        .4byte 0x40000000
-        .4byte 0x40800000
-        .4byte 0x40A00000
-loc_60:
-        .4byte 0x43300000
-        .4byte 0x80000000
+enemyResFileNameList:
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimpleMapString")]
+        .byte 0x00, 0x00, 0x21, 0x00
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimplPanel00String")]
+        .byte 0x01, 0x01, 0x10, 0x00
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimplPanel01String")]
+        .byte 0x02, 0x02, 0x11, 0x00
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimplPanel02String")]
+        .byte 0x03, 0x03, 0x1F, 0x00
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimplPanel10String")]
+        .byte 0x0F, 0x0F, 0x20, 0x00
+defaultAnimUpdateRate:
+        .float 1.0
+zeroAnimUpdateRate:
+        .float 0.0
+
+#appear to be unused
+        .float 3.0
+        .float 2.0
+        .float 4.0
+        .float 5.0
+magicIntToDouble:
+        #.double 4503601774854144.0 but thats sorta ugly
+        .8byte 0x4330000080000000
+#appear to be unused
         .4byte 0x00000004
         .4byte 0x00000001

@@ -63,9 +63,9 @@ muIntroTask__create:
 loc_30:
     mr r3,r31
     bl loc_894
-    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_0")]
+    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "commonBrresString")]
     addi r3,r31,0xE8
-    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_0")]
+    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "commonBrresString")]
     li r5,0x2B
     li r6,0x0
     li r7,0x0
@@ -82,9 +82,9 @@ loc_68:
     bl loc_950
     b loc_AC
 loc_7C:
-    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_1C")]
+    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "miniBrresString")]
     addi r3,r1,0x8
-    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_1C")]
+    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "miniBrresString")]
     addi r5,r5,0x1
     crclr 6
     bl __unresolved                          [R_PPC_REL24(0, 4, "printf__sprintf")]
@@ -110,10 +110,10 @@ loc_AC:
 muIntroTask____ct:
     stwu r1,-0x10(r1)
     mflr r0
-    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_3C")]
+    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "introString")]
     li r5,0x8
     stw r0,0x14(r1)
-    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_3C")]
+    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "introString")]
     li r6,0xF
     li r7,0x8
     stw r31,0xC(r1)
@@ -121,11 +121,11 @@ muIntroTask____ct:
     li r8,0x1
     stw r30,0x8(r1)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfTask____ct")]
-    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_1C0")]
+    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "muIntroTaskObj")]
     addi r5,r31,0x4C
     li r0,0x0
     addi r3,r31,0x54
-    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_1C0")]
+    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "muIntroTaskObj")]
     stw r0,0x40(r31)
     cmplw r5,r3
     stw r4,0x3C(r31)
@@ -383,8 +383,8 @@ muIntroTask____dt:
     stw r28,0x10(r1)
     mr r28,r3
     beq- loc_5FC
-    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_1C0")]
-    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_1C0")]
+    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "muIntroTaskObj")]
+    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "muIntroTaskObj")]
     stw r4,0x3C(r3)
     lwz r3,0xA8(r3)
     cmpwi r3,0x0
@@ -543,8 +543,8 @@ EnemyLoop:
     li r27,-0x1
     li r28,0xA
     lis r22,0x0                              [R_PPC_ADDR16_HA(0, 11, "loc_805A00E0")]
-    b loc_848
-loc_6F0:
+    b startEnemyLoop
+EnemyNameLoop:
     cmpwi r25,0x0
     ble- loc_748
     subi r0,r24,0x1
@@ -559,7 +559,7 @@ loc_6F0:
     stw r27,heapVoiceSFXID(r3)
     stw r28,heapVoiceSFXLength(r3)
     b loc_748
-EnemyNameLoop:
+loc_728:
     lwz r3,heapVoiceScriptCount(r23)
     rlwinm r0,r3,3,0,28
     addi r3,r3,0x1
@@ -587,7 +587,7 @@ loc_79C: #Team X
 loc_7A8:
     #get voice line for the prefix (e.g. metal/giant)
     rlwinm r0,r0,3,0,28
-    add r3,r31,r0 #fighterTypeSFXTable[r0]
+    add r3,r31,r0 #fighterTypeSFXTable
     lwz r4,0x0(r3) #sfxID
     lwz r5,0x4(r3) #sfxLength
     addis r0,r4,0x1
@@ -615,12 +615,15 @@ getEnemyName:
     bl __unresolved                          [R_PPC_REL24(0, 4, "loc_8004D9DC")]
     cmpwi r3,0x0
     bne- loc_818
-    lwz r3,heapEnemyChar(r26)
-    bl __unresolved                          [R_PPC_REL24(0, 4, "loc_800AF8A0")] #exchangeSelchkind2SelCharNarrationSndID[0]
+    lwz r3,heapEnemyChar(r26) 
+    #exchangeSelchkind2SelCharNarrationSndID[0]
+    bl __unresolved                          [R_PPC_REL24(0, 4, "loc_800AF8A0")]
+    
     b loc_820
 loc_818:
     lwz r3,heapEnemyChar(r26)
-    bl __unresolved                          [R_PPC_REL24(0, 4, "loc_800AF8B8")] #exchangeSelchkind2SelCharNarrationSndID[1]
+    #exchangeSelchkind2SelCharNarrationSndID[1]
+    bl __unresolved                          [R_PPC_REL24(0, 4, "loc_800AF8B8")]
 loc_820:
     lwz r3,heapVoiceScriptCount(r23)
     rlwinm r0,r3,3,0,28
@@ -629,11 +632,10 @@ loc_820:
     add r4,r23,r0
     stw r21,heapVoiceSFXID(r4)
     stw r3,heapVoiceSFXLength(r4)
-
 nextEnemy:
     addi r26,r26,0x8
     addi r25,r25,0x1
-loc_848:
+startEnemyLoop:
     cmpw r25,r24
     blt+ EnemyNameLoop
     b muIntroTask__makeSoundScript_end
@@ -656,7 +658,6 @@ muIntroTask__makeSoundScript_end:
     addi r1,r1,0x40
     blr
 
-
 loc_894:
     stwu r1,-0x10(r1)
     mflr r0
@@ -664,11 +665,11 @@ loc_894:
     stw r31,0xC(r1)
     mr r31,r3
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_188")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_1B8")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_188")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_1B8")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -723,10 +724,10 @@ loc_894:
 loc_950:
     stwu r1,-0xA0(r1)
     mflr r0
-    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_44")]
+    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "charCommonBrresString")]
     li r5,0x2B
     stw r0,0xA4(r1)
-    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_44")]
+    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "charCommonBrresString")]
     li r6,0x0
     li r7,0x0
     stw r31,0x9C(r1)
@@ -1420,11 +1421,11 @@ loc_12A0:
 loc_12A4:
     mr r22,r23
     li r21,0x0
-    lis r25,0x0                              [R_PPC_ADDR16_HA(13, 5, "loc_E0")]
+    lis r25,0x0                              [R_PPC_ADDR16_HA(13, 5, "extraStringList")]
     b loc_12E4
 loc_12B4:
     addi r3,r1,0x18
-    addi r4,r25,0x0                          [R_PPC_ADDR16_LO(13, 5, "loc_E0")]
+    addi r4,r25,0x0                          [R_PPC_ADDR16_LO(13, 5, "extraStringList")]
     add r5,r21,r26
     crclr 6
     bl __unresolved                          [R_PPC_REL24(0, 4, "printf__sprintf")]
@@ -1440,11 +1441,11 @@ loc_12E4:
     blt+ loc_12B4
     mr r22,r23
     li r21,0x0
-    lis r24,0x0                              [R_PPC_ADDR16_HA(13, 5, "loc_E0")]
+    lis r24,0x0                              [R_PPC_ADDR16_HA(13, 5, "extraStringList")]
     b loc_132C
 loc_12FC:
     addi r3,r1,0x18
-    addi r4,r24,0x0                          [R_PPC_ADDR16_LO(13, 5, "loc_E0")]
+    addi r4,r24,0x0                          [R_PPC_ADDR16_LO(13, 5, "extraStringList")]
     addi r5,r21,0x1E
     crclr 6
     bl __unresolved                          [R_PPC_REL24(0, 4, "printf__sprintf")]
@@ -1470,9 +1471,9 @@ loc_134C:
     stw r0,0x34(r1)
     addi r11,r1,0x30
     bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___savegpr_24")]
-    lis r31,0x0                              [R_PPC_ADDR16_HA(13, 5, "loc_0")]
+    lis r31,0x0                              [R_PPC_ADDR16_HA(13, 5, "commonBrresString")]
     cmpwi r8,0x2
-    addi r31,r31,0x0                         [R_PPC_ADDR16_LO(13, 5, "loc_0")]
+    addi r31,r31,0x0                         [R_PPC_ADDR16_LO(13, 5, "commonBrresString")]
     mr r24,r4
     mr r25,r5
     mr r26,r6
@@ -1539,8 +1540,8 @@ muIntroTask__getEnemyResFileName:
     mr r23,r5
     mr r24,r6
     li r28,0x0
-    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 5, "loc_148")]
-    lis r31,0x0                              [R_PPC_ADDR16_HA(13, 4, "loc_4C")]
+    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 5, "zeroString")]
+    lis r31,0x0                              [R_PPC_ADDR16_HA(13, 4, "zeroAnimUpdateRate")]
     b loc_1500
 loc_1464:
     lbz r3,0x5(r26)
@@ -1569,7 +1570,7 @@ loc_1484:
     addi r3,r1,0x8
     bl __unresolved                          [R_PPC_REL24(0, 4, "string__strcpy")]
     addi r3,r1,0x8
-    addi r4,r30,0x0                          [R_PPC_ADDR16_LO(13, 5, "loc_148")]
+    addi r4,r30,0x0                          [R_PPC_ADDR16_LO(13, 5, "zeroString")]
     bl __unresolved                          [R_PPC_REL24(0, 4, "string__strcat")]
     mr r3,r25
     addi r4,r1,0x8
@@ -1577,7 +1578,7 @@ loc_1484:
     lwz r3,0x14(r25)
     cmpwi r3,0x0
     beq- loc_14EC
-    lfs f1,0x0(r31)                         [R_PPC_ADDR16_LO(13, 4, "loc_4C")]
+    lfs f1,0x0(r31)                         [R_PPC_ADDR16_LO(13, 4, "zeroAnimUpdateRate")]
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfModelAnimation__setUpdateRate")]
 loc_14EC:
     addi r27,r27,0x1
@@ -1606,8 +1607,8 @@ muIntroTask__createObjResFile:
     stw r30,0x18(r1)
     stw r29,0x14(r1)
     stw r4,0xC(r1)
-    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 4, "loc_60")]
-    lfd f1,0x0(r4)                          [R_PPC_ADDR16_LO(13, 4, "loc_60")]
+    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 4, "magicIntToDouble")]
+    lfd f1,0x0(r4)                          [R_PPC_ADDR16_LO(13, 4, "magicIntToDouble")]
     stw r0,0x8(r1)
     stw r28,0x10(r1)
     lfd f0,0x8(r1)
@@ -1617,11 +1618,11 @@ muIntroTask__createObjResFile:
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__setFrameMatCol")]
     lwz r28,0x10(r28)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r29,0x0                              [R_PPC_ADDR16_HA(13, 5, "loc_188")]
-    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 5, "loc_1B8")]
+    lis r29,0x0                              [R_PPC_ADDR16_HA(13, 5, "scIntro")]
+    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 5, "gfScene")]
     lwz r3,0x4(r3)
-    addi r5,r29,0x0                          [R_PPC_ADDR16_LO(13, 5, "loc_188")]
-    addi r6,r30,0x0                          [R_PPC_ADDR16_LO(13, 5, "loc_1B8")]
+    addi r5,r29,0x0                          [R_PPC_ADDR16_LO(13, 5, "scIntro")]
+    addi r6,r30,0x0                          [R_PPC_ADDR16_LO(13, 5, "gfScene")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1637,8 +1638,8 @@ muIntroTask__createObjResFile:
     lwz r28,0xA8(r31)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
     lwz r3,0x4(r3)
-    addi r5,r29,0x0                          [R_PPC_ADDR16_LO(13, 5, "loc_188")]
-    addi r6,r30,0x0                          [R_PPC_ADDR16_LO(13, 5, "loc_1B8")]
+    addi r5,r29,0x0                          [R_PPC_ADDR16_LO(13, 5, "scIntro")]
+    addi r6,r30,0x0                          [R_PPC_ADDR16_LO(13, 5, "gfScene")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1652,8 +1653,8 @@ muIntroTask__createObjResFile:
     mtctr r12
     bctrl
     lwz r28,0x68(r31)
-    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 4, "loc_48")]
-    lfs f1,0x0(r30)                         [R_PPC_ADDR16_LO(13, 4, "loc_48")]
+    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 4, "defaultAnimUpdateRate")]
+    lfs f1,0x0(r30)                         [R_PPC_ADDR16_LO(13, 4, "defaultAnimUpdateRate")]
     lwz r3,0x14(r28)
     lwz r3,0xC(r3)
     lwz r12,0x0(r3)
@@ -1661,7 +1662,7 @@ muIntroTask__createObjResFile:
     mtctr r12
     bctrl
     lwz r3,0x14(r28)
-    lfs f1,0x0(r30)                         [R_PPC_ADDR16_LO(13, 4, "loc_48")]
+    lfs f1,0x0(r30)                         [R_PPC_ADDR16_LO(13, 4, "defaultAnimUpdateRate")]
     lwz r3,0x18(r3)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -1680,11 +1681,11 @@ loc_1654:
     lwz r29,0x9C(r31)
     lwz r28,0x10(r29)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_188")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_1B8")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_188")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_1B8")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1698,8 +1699,8 @@ loc_1654:
     mtctr r12
     bctrl
     lwz r4,0x14(r29)
-    lis r3,0x0                               [R_PPC_ADDR16_HA(13, 4, "loc_48")]
-    lfs f1,0x0(r3)                          [R_PPC_ADDR16_LO(13, 4, "loc_48")]
+    lis r3,0x0                               [R_PPC_ADDR16_HA(13, 4, "defaultAnimUpdateRate")]
+    lfs f1,0x0(r3)                          [R_PPC_ADDR16_LO(13, 4, "defaultAnimUpdateRate")]
     lwz r3,0xC(r4)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -1707,8 +1708,8 @@ loc_1654:
     bctrl
 loc_16CC:
     lwz r28,0x6C(r31)
-    lis r31,0x0                              [R_PPC_ADDR16_HA(13, 4, "loc_48")]
-    lfs f1,0x0(r31)                         [R_PPC_ADDR16_LO(13, 4, "loc_48")]
+    lis r31,0x0                              [R_PPC_ADDR16_HA(13, 4, "defaultAnimUpdateRate")]
+    lfs f1,0x0(r31)                         [R_PPC_ADDR16_LO(13, 4, "defaultAnimUpdateRate")]
     lwz r3,0x14(r28)
     lwz r3,0xC(r3)
     lwz r12,0x0(r3)
@@ -1716,7 +1717,7 @@ loc_16CC:
     mtctr r12
     bctrl
     lwz r3,0x14(r28)
-    lfs f1,0x0(r31)                         [R_PPC_ADDR16_LO(13, 4, "loc_48")]
+    lfs f1,0x0(r31)                         [R_PPC_ADDR16_LO(13, 4, "defaultAnimUpdateRate")]
     lwz r3,0x18(r3)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -1724,11 +1725,11 @@ loc_16CC:
     bctrl
     lwz r28,0x10(r28)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_188")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_1B8")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_188")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_1B8")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1800,11 +1801,11 @@ loc_1810:
     bl __unresolved                          [R_PPC_REL24(0, 4, "nw4r3g3d7ResFileFv__Init")]
 loc_1824:
     lwz r0,0x8(r1)
-    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 4, "loc_20")]
+    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 4, "enemyResFileNameList")]
     mr r3,r31
     addi r6,r31,0x40
     stw r0,0x40(r31)
-    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 4, "loc_20")]
+    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 4, "enemyResFileNameList")]
 muIntroTask__processDefault:
     li r5,0x1
     bl muIntroTask__getEnemyResFileName
@@ -1856,10 +1857,10 @@ loc_18D8:
     addi r3,r3,0xD0
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfKeepFrameBuffer__endKeepScreen")]
     lwz r5,heapStageNum(r31)
-    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_14C")]
+    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "simpleMapTopNXString")]
     lwz r30,0x60(r31)
     addi r3,r1,0x10
-    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_14C")]
+    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "simpleMapTopNXString")]
     addi r5,r5,0x1
     crclr 6
     bl __unresolved                          [R_PPC_REL24(0, 4, "printf__sprintf")]
@@ -1875,17 +1876,18 @@ loc_18D8:
     mr r3,r30
     addi r4,r1,0x10
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__changeClrAnimNIf")]
-    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 4, "loc_48")]
+    
+    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 4, "defaultAnimUpdateRate")]
     lwz r3,0x14(r30)
-    lfs f1,0x0(r4)                          [R_PPC_ADDR16_LO(13, 4, "loc_48")]
+    lfs f1,0x0(r4)                          [R_PPC_ADDR16_LO(13, 4, "defaultAnimUpdateRate")]
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfModelAnimation__setUpdateRate")]
     lwz r30,0x10(r30)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_188")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_1B8")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_188")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_1B8")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1912,8 +1914,8 @@ loc_19A8:
     b loc_1A4C
 loc_19C0:
     lwz r29,0x70(r31)
-    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 4, "loc_48")]
-    lfs f1,0x0(r30)                         [R_PPC_ADDR16_LO(13, 4, "loc_48")]
+    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 4, "defaultAnimUpdateRate")]
+    lfs f1,0x0(r30)                         [R_PPC_ADDR16_LO(13, 4, "defaultAnimUpdateRate")]
     lwz r3,0x14(r29)
     lwz r3,0xC(r3)
     lwz r12,0x0(r3)
@@ -1921,7 +1923,7 @@ loc_19C0:
     mtctr r12
     bctrl
     lwz r3,0x14(r29)
-    lfs f1,0x0(r30)                         [R_PPC_ADDR16_LO(13, 4, "loc_48")]
+    lfs f1,0x0(r30)                         [R_PPC_ADDR16_LO(13, 4, "defaultAnimUpdateRate")]
     lwz r3,0x18(r3)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -1929,11 +1931,11 @@ loc_19C0:
     bctrl
     lwz r30,0x10(r29)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_188")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_1B8")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_188")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_1B8")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1948,11 +1950,11 @@ loc_19C0:
     bctrl
 loc_1A4C:
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_188")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_1B8")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_188")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_1B8")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1962,11 +1964,11 @@ loc_1A4C:
     li r30,-0x1
 loc_1A80:
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_188")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_1B8")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_188")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_1B8")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -2023,11 +2025,11 @@ loc_1B58:
     cmpw r3,r0
     blt- loc_1BA0
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_188")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_1B8")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_188")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_1B8")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -2087,6 +2089,6 @@ loc_1C2C:
     addi r1,r1,0x10
     blr
 __unresolved:
-    lis r3,0x0                               [R_PPC_ADDR16_HA(13, 5, "loc_258")]
-    addi r3,r3,0x0                           [R_PPC_ADDR16_LO(13, 5, "loc_258")]
+    lis r3,0x0                               [R_PPC_ADDR16_HA(13, 5, "unresolvedMessage")]
+    addi r3,r3,0x0                           [R_PPC_ADDR16_LO(13, 5, "unresolvedMessage")]
     b __unresolved                           [R_PPC_REL24(0, 4, "module__moUnResolvedMessage")]
