@@ -1,3 +1,37 @@
+.set sceneStageNum, 0x35C
+.set sceneMode, 0x360
+.set sceneOpponentCount, 0x364
+.set sceneEnemyOneChar, 0x368
+.set sceneEnemyOneType, 0x36C
+.set sceneEnemyTwoChar, 0x370
+.set sceneEnemyTwoType, 0x374
+.set sceneEnemyThreeChar, 0x378
+.set sceneEnemeyThreeType, 0x37C
+.set sceneAllyCount, 0x380
+.set sceneAllyOneChar, 0x384
+.set sceneAllyOneType, 0x388
+.set sceneAllyTwoChar, 0x38C
+.set sceneAllyTwoType, 0x390
+
+.set heapTableOffset, 0xAC
+.set heapStageNum, 0xAC
+.set heapMode, 0xB0
+.set modeEnumStandard, 0x0
+.set modeEnumTeam, 0x1
+.set modeEnumBTT, 0x2
+.set heapOpponentCount, 0xB4
+.set heapEnemyOneChar, 0xB8
+.set heapEnemyOneType, 0xBC
+.set heapEnemyTwoChar, 0xC0
+.set heapEnemyTwoType, 0xC4
+.set heapEnemyThreeChar, 0xC8
+.set heapEnemeyThreeType, 0xCC
+.set heapAllyCount, 0xD0
+.set heapAllyOneChar, 0xD4
+.set heapAllyOneType, 0xD8
+.set heapAllyTwoChar, 0xDC
+.set heapAllyTwoType, 0xE0
+
 muIntroTask__create:
     /* 00000000: */    stwu r1,-0x50(r1)
     /* 00000004: */    mflr r0
@@ -21,9 +55,9 @@ loc_30:
     /* 00000048: */    li r6,-0x0
     /* 0000004C: */    li r7,-0x0
     /* 00000050: */    bl __unresolved                          [R_PPC_REL24(0, 4, "gfFileIOHandle__readRequest")]
-    /* 00000054: */    lwz r3,0xB0(r31)
+    /* 00000054: */    lwz r3,heapMode(r31)
     /* 00000058: */    li r5,-0x1
-    /* 0000005C: */    cmpwi r3,0x2
+    /* 0000005C: */    cmpwi r3,modeEnumBTT
     /* 00000060: */    blt- loc_68
     /* 00000064: */    subi r5,r3,0x2
 loc_68:
@@ -245,7 +279,7 @@ loc_354:
     /* 00000378: */    li r7,0x8
     /* 0000037C: */    bl __unresolved                          [R_PPC_REL24(0, 4, "NMWException____construct_array")]
     /* 00000380: */    lbz r0,0x2C(r31)
-    /* 00000384: */    addi r3,r31,0xAC
+    /* 00000384: */    addi r3,r31,heapTableOffset
     /* 00000388: */    stb r30,0x108(r31)
     /* 0000038C: */    li r4,-0x0
     /* 00000390: */    rlwinm r0,r0,0,31,29
@@ -428,16 +462,17 @@ loc_5FC:
     /* 00000614: */    mtlr r0
     /* 00000618: */    addi r1,r1,0x20
     /* 0000061C: */    blr
+
 muIntroTask__makeSoundScript:
     /* 00000620: */    stwu r1,-0x40(r1)
     /* 00000624: */    mflr r0
     /* 00000628: */    stw r0,0x44(r1)
     /* 0000062C: */    addi r11,r1,0x40
     /* 00000630: */    bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___savegpr_21")]
-    /* 00000634: */    lwz r4,0xB0(r3)
+    /* 00000634: */    lwz r4,heapMode(r3)
     /* 00000638: */    mr r23,r3
     /* 0000063C: */    li r0,-0x1
-    /* 00000640: */    cmpwi r4,0x2
+    /* 00000640: */    cmpwi r4,modeEnumBTT
     /* 00000644: */    blt- loc_64C
     /* 00000648: */    subi r0,r4,0x2
 loc_64C:
@@ -451,9 +486,9 @@ loc_64C:
     /* 00000668: */    stw r4,0x10C(r5)
     /* 0000066C: */    stw r0,0x110(r5)
     /* 00000670: */    lwz r4,0x18C(r3)
-    /* 00000674: */    lwz r5,0xB0(r3)
+    /* 00000674: */    lwz r5,heapMode(r3)
     /* 00000678: */    addi r0,r4,0x1
-    /* 0000067C: */    cmpwi r5,0x1
+    /* 0000067C: */    cmpwi r5,modeEnumTeam
     /* 00000680: */    stw r0,0x18C(r3)
     /* 00000684: */    bne- loc_6B4
     /* 00000688: */    rlwinm r0,r0,3,0,28
@@ -473,7 +508,7 @@ loc_6B4:
     /* 000006BC: */    li r24,-0x1
     /* 000006C0: */    b loc_6C8
 loc_6C4:
-    /* 000006C4: */    lwz r24,0xB4(r3)
+    /* 000006C4: */    lwz r24,heapOpponentCount(r3)
 loc_6C8:
     /* 000006C8: */    lis r31,-0x0                             [R_PPC_ADDR16_HA(13, 4, "loc_0")]
     /* 000006CC: */    mr r26,r23
@@ -512,20 +547,20 @@ loc_728:
 loc_748:
     /* 00000748: */    cmpwi r25,-0x0
     /* 0000074C: */    bge- loc_778
-    /* 00000750: */    lwz r0,0xB0(r23)
+    /* 00000750: */    lwz r0,heapMode(r23)
     /* 00000754: */    cmpwi r0,0x2
     /* 00000758: */    blt- loc_764
     /* 0000075C: */    li r0,-0x1
     /* 00000760: */    b loc_768
 loc_764:
-    /* 00000764: */    lwz r0,0xB4(r23)
+    /* 00000764: */    lwz r0,heapOpponentCount(r23)
 loc_768:
     /* 00000768: */    cmpw r25,r0
     /* 0000076C: */    blt- loc_778
     /* 00000770: */    li r0,0x4
     /* 00000774: */    b loc_7A8
 loc_778:
-    /* 00000778: */    lwz r0,0xB0(r23)
+    /* 00000778: */    lwz r0,heapMode(r23)
     /* 0000077C: */    cmpwi r0,0x1
     /* 00000780: */    beq- loc_79C
     /* 00000784: */    bge- loc_7A4
@@ -533,7 +568,7 @@ loc_778:
     /* 0000078C: */    bge- loc_794
     /* 00000790: */    b loc_7A4
 loc_794:
-    /* 00000794: */    lwz r0,0xBC(r26)
+    /* 00000794: */    lwz r0,heapEnemyOneType(r26)
     /* 00000798: */    b loc_7A8
 loc_79C:
     /* 0000079C: */    li r0,-0x0
@@ -557,7 +592,7 @@ loc_7A8:
     /* 000007DC: */    addi r0,r3,0x1
     /* 000007E0: */    stw r0,0x18C(r23)
 loc_7E4:
-    /* 000007E4: */    lwz r3,0xB8(r26)
+    /* 000007E4: */    lwz r3,heapEnemyOneChar(r26)
     /* 000007E8: */    bl __unresolved                          [R_PPC_REL24(0, 4, "muMenu__exchangeSelchkind2SelCharVoice")]
     /* 000007EC: */    addis r0,r3,0x1
     /* 000007F0: */    mr r21,r3
@@ -567,11 +602,11 @@ loc_7E4:
     /* 00000800: */    bl __unresolved                          [R_PPC_REL24(0, 4, "loc_8004D9DC")]
     /* 00000804: */    cmpwi r3,-0x0
     /* 00000808: */    bne- loc_818
-    /* 0000080C: */    lwz r3,0xB8(r26)
+    /* 0000080C: */    lwz r3,heapEnemyOneChar(r26)
     /* 00000810: */    bl __unresolved                          [R_PPC_REL24(0, 4, "loc_800AF8A0")]
     /* 00000814: */    b loc_820
 loc_818:
-    /* 00000818: */    lwz r3,0xB8(r26)
+    /* 00000818: */    lwz r3,heapEnemyOneChar(r26)
     /* 0000081C: */    bl __unresolved                          [R_PPC_REL24(0, 4, "loc_800AF8B8")]
 loc_820:
     /* 00000820: */    lwz r0,0x18C(r23)
@@ -622,34 +657,49 @@ loc_894:
     /* 000008C0: */    li r4,0x4
     /* 000008C4: */    li r7,-0x0
     /* 000008C8: */    bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
-    /* 000008CC: */    lwz r0,0x35C(r3)
-    /* 000008D0: */    stw r0,0xAC(r31)
-    /* 000008D4: */    lwz r0,0x360(r3)
-    /* 000008D8: */    stw r0,0xB0(r31)
-    /* 000008DC: */    lwz r0,0x364(r3)
-    /* 000008E0: */    stw r0,0xB4(r31)
-    /* 000008E4: */    lwz r0,0x380(r3)
-    /* 000008E8: */    stw r0,0xD0(r31)
-    /* 000008EC: */    lwz r0,0x368(r3)
-    /* 000008F0: */    stw r0,0xB8(r31)
-    /* 000008F4: */    lwz r0,0x36C(r3)
-    /* 000008F8: */    stw r0,0xBC(r31)
-    /* 000008FC: */    lwz r0,0x370(r3)
-    /* 00000900: */    stw r0,0xC0(r31)
-    /* 00000904: */    lwz r0,0x374(r3)
-    /* 00000908: */    stw r0,0xC4(r31)
-    /* 0000090C: */    lwz r0,0x378(r3)
-    /* 00000910: */    stw r0,0xC8(r31)
-    /* 00000914: */    lwz r0,0x37C(r3)
-    /* 00000918: */    stw r0,0xCC(r31)
-    /* 0000091C: */    lwz r0,0x384(r3)
-    /* 00000920: */    stw r0,0xD4(r31)
-    /* 00000924: */    lwz r0,0x388(r3)
-    /* 00000928: */    stw r0,0xD8(r31)
-    /* 0000092C: */    lwz r0,0x38C(r3)
-    /* 00000930: */    stw r0,0xDC(r31)
-    /* 00000934: */    lwz r0,0x390(r3)
-    /* 00000938: */    stw r0,0xE0(r31)
+    
+    /* 000008CC: */    lwz r0,sceneStageNum(r3)
+    /* 000008D0: */    stw r0,heapStageNum(r31)
+
+    /* 000008D4: */    lwz r0,sceneMode(r3)
+    /* 000008D8: */    stw r0,heapMode(r31)
+
+    /* 000008DC: */    lwz r0,sceneOpponentCount(r3)
+    /* 000008E0: */    stw r0,heapOpponentCount(r31)
+
+    /* 000008E4: */    lwz r0,sceneAllyCount(r3)
+    /* 000008E8: */    stw r0,heapAllyCount(r31)
+
+    /* 000008EC: */    lwz r0,sceneEnemyOneChar(r3)
+    /* 000008F0: */    stw r0,heapEnemyOneChar(r31)
+
+    /* 000008F4: */    lwz r0,sceneEnemyOneType(r3)
+    /* 000008F8: */    stw r0,heapEnemyOneType(r31)
+
+    /* 000008FC: */    lwz r0,sceneEnemyTwoChar(r3)
+    /* 00000900: */    stw r0,heapEnemyTwoChar(r31)
+
+    /* 00000904: */    lwz r0,sceneEnemyTwoType(r3)
+    /* 00000908: */    stw r0,heapEnemyTwoType(r31)
+
+    /* 0000090C: */    lwz r0,sceneEnemyThreeChar(r3)
+    /* 00000910: */    stw r0,heapEnemyThreeChar(r31)
+
+    /* 00000914: */    lwz r0,sceneEnemeyThreeType(r3)
+    /* 00000918: */    stw r0,heapEnemeyThreeType(r31)
+
+    /* 0000091C: */    lwz r0,sceneAllyOneChar(r3)
+    /* 00000920: */    stw r0,sceneAllyOneChar(r31)
+
+    /* 00000924: */    lwz r0,sceneAllyOneType(r3)
+    /* 00000928: */    stw r0,sceneAllyOneType(r31)
+
+    /* 0000092C: */    lwz r0,sceneAllyTwoChar(r3)
+    /* 00000930: */    stw r0,sceneAllyTwoChar(r31)
+    
+    /* 00000934: */    lwz r0,sceneAllyTwoType(r3)
+    /* 00000938: */    stw r0,sceneAllyTwoType(r31)
+    
     /* 0000093C: */    lwz r31,0xC(r1)
     /* 00000940: */    lwz r0,0x14(r1)
     /* 00000944: */    mtlr r0
@@ -671,16 +721,16 @@ loc_950:
     /* 00000980: */    stw r29,0x94(r1)
     /* 00000984: */    stw r28,0x90(r1)
     /* 00000988: */    bl __unresolved                          [R_PPC_REL24(0, 4, "gfFileIOHandle__readRequest")]
-    /* 0000098C: */    lwz r0,0xB0(r31)
+    /* 0000098C: */    lwz r0,heapMode(r31)
     /* 00000990: */    cmpwi r0,0x1
-    /* 00000994: */    bne- loc_9F4
+    /* 00000994: */    bne- loc_9F4 
     /* 00000998: */    beq- loc_9B4
     /* 0000099C: */    bge- loc_9BC
     /* 000009A0: */    cmpwi r0,-0x0
     /* 000009A4: */    bge- loc_9AC
     /* 000009A8: */    b loc_9BC
 loc_9AC:
-    /* 000009AC: */    lwz r8,0xBC(r31)
+    /* 000009AC: */    lwz r8,heapEnemyOneType(r31)
     /* 000009B0: */    b loc_9C0
 loc_9B4:
     /* 000009B4: */    li r8,-0x0
@@ -688,7 +738,7 @@ loc_9B4:
 loc_9BC:
     /* 000009BC: */    li r8,0x4
 loc_9C0:
-    /* 000009C0: */    lwz r7,0xB8(r31)
+    /* 000009C0: */    lwz r7,heapEnemyOneChar(r31)
     /* 000009C4: */    mr r3,r31
     /* 000009C8: */    addi r4,r1,0x48
     /* 000009CC: */    addi r5,r1,0x28
@@ -707,7 +757,7 @@ loc_9F4:
     /* 000009FC: */    li r30,-0x1
     /* 00000A00: */    b loc_A08
 loc_A04:
-    /* 00000A04: */    lwz r30,0xB4(r31)
+    /* 00000A04: */    lwz r30,heapOpponentCount(r31)
 loc_A08:
     /* 00000A08: */    mr r29,r31
     /* 00000A0C: */    li r28,-0x0
@@ -715,20 +765,20 @@ loc_A08:
 loc_A14:
     /* 00000A14: */    cmpwi r28,-0x0
     /* 00000A18: */    bge- loc_A44
-    /* 00000A1C: */    lwz r0,0xB0(r31)
-    /* 00000A20: */    cmpwi r0,0x2
+    /* 00000A1C: */    lwz r0,heapMode(r31)
+    /* 00000A20: */    cmpwi r0,modeEnumBTT
     /* 00000A24: */    blt- loc_A30
     /* 00000A28: */    li r0,-0x1
     /* 00000A2C: */    b loc_A34
 loc_A30:
-    /* 00000A30: */    lwz r0,0xB4(r31)
+    /* 00000A30: */    lwz r0,heapOpponentCount(r31)
 loc_A34:
     /* 00000A34: */    cmpw r28,r0
     /* 00000A38: */    blt- loc_A44
     /* 00000A3C: */    li r8,0x4
     /* 00000A40: */    b loc_A74
 loc_A44:
-    /* 00000A44: */    lwz r0,0xB0(r31)
+    /* 00000A44: */    lwz r0,heapMode(r31)
     /* 00000A48: */    cmpwi r0,0x1
     /* 00000A4C: */    beq- loc_A68
     /* 00000A50: */    bge- loc_A70
@@ -736,7 +786,7 @@ loc_A44:
     /* 00000A58: */    bge- loc_A60
     /* 00000A5C: */    b loc_A70
 loc_A60:
-    /* 00000A60: */    lwz r8,0xBC(r29)
+    /* 00000A60: */    lwz r8,heapEnemyOneType(r29)
     /* 00000A64: */    b loc_A74
 loc_A68:
     /* 00000A68: */    li r8,-0x0
@@ -744,7 +794,7 @@ loc_A68:
 loc_A70:
     /* 00000A70: */    li r8,0x4
 loc_A74:
-    /* 00000A74: */    lwz r7,0xB8(r29)
+    /* 00000A74: */    lwz r7,heapEnemyOneChar(r29)
     /* 00000A78: */    mr r3,r31
     /* 00000A7C: */    addi r4,r1,0x48
     /* 00000A80: */    addi r5,r1,0x28
@@ -765,13 +815,13 @@ loc_AB8:
     /* 00000AB8: */    cmpw r28,r30
     /* 00000ABC: */    blt+ loc_A14
 loc_AC0:
-    /* 00000AC0: */    lwz r0,0xB0(r31)
-    /* 00000AC4: */    cmpwi r0,0x2
+    /* 00000AC0: */    lwz r0,heapMode(r31)
+    /* 00000AC4: */    cmpwi r0,modeEnumBTT
     /* 00000AC8: */    blt- loc_AD4
     /* 00000ACC: */    li r30,-0x1
     /* 00000AD0: */    b loc_AD8
 loc_AD4:
-    /* 00000AD4: */    lwz r30,0xD0(r31)
+    /* 00000AD4: */    lwz r30,heapAllyCount(r31)
 loc_AD8:
     /* 00000AD8: */    mr r29,r31
     /* 00000ADC: */    li r28,-0x0
@@ -779,32 +829,32 @@ loc_AD8:
 loc_AE4:
     /* 00000AE4: */    cmpwi r28,-0x0
     /* 00000AE8: */    bge- loc_B14
-    /* 00000AEC: */    lwz r0,0xB0(r31)
-    /* 00000AF0: */    cmpwi r0,0x2
+    /* 00000AEC: */    lwz r0,heapMode(r31)
+    /* 00000AF0: */    cmpwi r0,modeEnumBTT
     /* 00000AF4: */    blt- loc_B00
     /* 00000AF8: */    li r0,-0x1
     /* 00000AFC: */    b loc_B04
 loc_B00:
-    /* 00000B00: */    lwz r0,0xD0(r31)
+    /* 00000B00: */    lwz r0,heapAllyCount(r31)
 loc_B04:
     /* 00000B04: */    cmpw r28,r0
     /* 00000B08: */    blt- loc_B14
     /* 00000B0C: */    li r8,0x4
     /* 00000B10: */    b loc_B38
 loc_B14:
-    /* 00000B14: */    lwz r0,0xB0(r31)
-    /* 00000B18: */    cmpwi r0,0x2
+    /* 00000B14: */    lwz r0,heapMode(r31)
+    /* 00000B18: */    cmpwi r0,modeEnumBTT
     /* 00000B1C: */    bge- loc_B34
-    /* 00000B20: */    cmpwi r0,-0x0
+    /* 00000B20: */    cmpwi r0,modeEnumStandard
     /* 00000B24: */    bge- loc_B2C
     /* 00000B28: */    b loc_B34
 loc_B2C:
-    /* 00000B2C: */    lwz r8,0xD8(r29)
+    /* 00000B2C: */    lwz r8,heapAllyOneType(r29)
     /* 00000B30: */    b loc_B38
 loc_B34:
     /* 00000B34: */    li r8,0x4
 loc_B38:
-    /* 00000B38: */    lwz r7,0xD4(r29)
+    /* 00000B38: */    lwz r7,heapAllyOneChar(r29)
     /* 00000B3C: */    mr r3,r31
     /* 00000B40: */    addi r4,r1,0x48
     /* 00000B44: */    addi r5,r1,0x28
@@ -904,7 +954,7 @@ loc_C6C:
     /* 00000C98: */    li r5,0xD
     /* 00000C9C: */    lwz r6,0x10(r6)
     /* 00000CA0: */    bl __unresolved                          [R_PPC_REL24(0, 4, "nw4r3g3d12ScnMdlExpandFP12MEMAlloc__Construct")]
-    /* 00000CA4: */    lwz r0,0xB0(r23)
+    /* 00000CA4: */    lwz r0,heapMode(r23)
     /* 00000CA8: */    stw r3,0xA8(r23)
     /* 00000CAC: */    cmpwi r0,0x1
     /* 00000CB0: */    bne- loc_E88
@@ -915,7 +965,7 @@ loc_C6C:
     /* 00000CC4: */    bge- loc_CCC
     /* 00000CC8: */    b loc_CDC
 loc_CCC:
-    /* 00000CCC: */    lwz r8,0xBC(r23)
+    /* 00000CCC: */    lwz r8,heapEnemyOneType(r23)
     /* 00000CD0: */    b loc_CE0
 loc_CD4:
     /* 00000CD4: */    li r8,-0x0
@@ -923,7 +973,7 @@ loc_CD4:
 loc_CDC:
     /* 00000CDC: */    li r8,0x4
 loc_CE0:
-    /* 00000CE0: */    lwz r7,0xB8(r23)
+    /* 00000CE0: */    lwz r7,heapEnemyOneChar(r23)
     /* 00000CE4: */    mr r3,r23
     /* 00000CE8: */    addi r4,r1,0x60
     /* 00000CEC: */    addi r5,r1,0x40
@@ -990,7 +1040,7 @@ loc_DB8:
     /* 00000DC8: */    mr r3,r25
     /* 00000DCC: */    addi r4,r1,0x20
     /* 00000DD0: */    bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__changeVisAnimN")]
-    /* 00000DD4: */    lwz r0,0xB0(r23)
+    /* 00000DD4: */    lwz r0,heapMode(r23)
     /* 00000DD8: */    cmpwi r0,0x1
     /* 00000DDC: */    bne- loc_DE8
     /* 00000DE0: */    lfs f1,0x50(r30)
@@ -1001,7 +1051,7 @@ loc_DE8:
     /* 00000DF0: */    li r0,-0x1
     /* 00000DF4: */    b loc_DFC
 loc_DF8:
-    /* 00000DF8: */    lwz r0,0xB4(r23)
+    /* 00000DF8: */    lwz r0,heapOpponentCount(r23)
 loc_DFC:
     /* 00000DFC: */    cmpwi r0,0x2
     /* 00000E00: */    beq- loc_E28
@@ -1051,7 +1101,7 @@ loc_E88:
     /* 00000E90: */    li r24,-0x1
     /* 00000E94: */    b loc_E9C
 loc_E98:
-    /* 00000E98: */    lwz r24,0xB4(r23)
+    /* 00000E98: */    lwz r24,heapOpponentCount(r23)
 loc_E9C:
     /* 00000E9C: */    mr r26,r23
     /* 00000EA0: */    mr r27,r23
@@ -1088,20 +1138,20 @@ loc_F08:
     /* 00000F0C: */    cmpwi r25,-0x0
     /* 00000F10: */    stw r0,0x48(r26)
     /* 00000F14: */    bge- loc_F40
-    /* 00000F18: */    lwz r0,0xB0(r23)
-    /* 00000F1C: */    cmpwi r0,0x2
+    /* 00000F18: */    lwz r0,heapMode(r23)
+    /* 00000F1C: */    cmpwi r0,modeEnumBTT
     /* 00000F20: */    blt- loc_F2C
     /* 00000F24: */    li r0,-0x1
     /* 00000F28: */    b loc_F30
 loc_F2C:
-    /* 00000F2C: */    lwz r0,0xB4(r23)
+    /* 00000F2C: */    lwz r0,heapOpponentCount(r23)
 loc_F30:
     /* 00000F30: */    cmpw r25,r0
     /* 00000F34: */    blt- loc_F40
     /* 00000F38: */    li r8,0x4
     /* 00000F3C: */    b loc_F70
 loc_F40:
-    /* 00000F40: */    lwz r0,0xB0(r23)
+    /* 00000F40: */    lwz r0,heapMode(r23)
     /* 00000F44: */    cmpwi r0,0x1
     /* 00000F48: */    beq- loc_F64
     /* 00000F4C: */    bge- loc_F6C
@@ -1109,7 +1159,7 @@ loc_F40:
     /* 00000F54: */    bge- loc_F5C
     /* 00000F58: */    b loc_F6C
 loc_F5C:
-    /* 00000F5C: */    lwz r8,0xBC(r27)
+    /* 00000F5C: */    lwz r8,heapEnemyOneType(r27)
     /* 00000F60: */    b loc_F70
 loc_F64:
     /* 00000F64: */    li r8,-0x0
@@ -1117,7 +1167,7 @@ loc_F64:
 loc_F6C:
     /* 00000F6C: */    li r8,0x4
 loc_F70:
-    /* 00000F70: */    lwz r7,0xB8(r27)
+    /* 00000F70: */    lwz r7,heapEnemyOneChar(r27)
     /* 00000F74: */    mr r3,r23
     /* 00000F78: */    addi r4,r1,0x60
     /* 00000F7C: */    addi r5,r1,0x40
@@ -1152,18 +1202,18 @@ loc_F70:
     /* 00000FF0: */    mr r3,r21
     /* 00000FF4: */    addi r4,r1,0x20
     /* 00000FF8: */    bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__changeVisAnimN")]
-    /* 00000FFC: */    lwz r0,0xB0(r23)
-    /* 00001000: */    cmpwi r0,0x1
+    /* 00000FFC: */    lwz r0,heapMode(r23)
+    /* 00001000: */    cmpwi r0,modeEnumTeam
     /* 00001004: */    bne- loc_1010
     /* 00001008: */    lfs f1,0x50(r30)
     /* 0000100C: */    b loc_1074
 loc_1010:
-    /* 00001010: */    cmpwi r0,0x2
+    /* 00001010: */    cmpwi r0,modeEnumBTT
     /* 00001014: */    blt- loc_1020
     /* 00001018: */    li r0,-0x1
     /* 0000101C: */    b loc_1024
 loc_1020:
-    /* 00001020: */    lwz r0,0xB4(r23)
+    /* 00001020: */    lwz r0,heapOpponentCount(r23)
 loc_1024:
     /* 00001024: */    cmpwi r0,0x2
     /* 00001028: */    beq- loc_1050
@@ -1210,13 +1260,13 @@ loc_10AC:
     /* 000010AC: */    cmpw r25,r24
     /* 000010B0: */    blt+ loc_EB4
 loc_10B4:
-    /* 000010B4: */    lwz r0,0xB0(r23)
-    /* 000010B8: */    cmpwi r0,0x2
+    /* 000010B4: */    lwz r0,heapMode(r23)
+    /* 000010B8: */    cmpwi r0,modeEnumBTT
     /* 000010BC: */    blt- loc_10C8
     /* 000010C0: */    li r29,-0x1
     /* 000010C4: */    b loc_10CC
 loc_10C8:
-    /* 000010C8: */    lwz r29,0xD0(r23)
+    /* 000010C8: */    lwz r29,heapAllyCount(r23)
 loc_10CC:
     /* 000010CC: */    mr r28,r23
     /* 000010D0: */    mr r27,r23
@@ -1253,32 +1303,32 @@ loc_1138:
     /* 0000113C: */    cmpwi r25,-0x0
     /* 00001140: */    stw r0,0x54(r28)
     /* 00001144: */    bge- loc_1170
-    /* 00001148: */    lwz r0,0xB0(r23)
-    /* 0000114C: */    cmpwi r0,0x2
+    /* 00001148: */    lwz r0,heapMode(r23)
+    /* 0000114C: */    cmpwi r0,modeEnumBTT
     /* 00001150: */    blt- loc_115C
     /* 00001154: */    li r0,-0x1
     /* 00001158: */    b loc_1160
 loc_115C:
-    /* 0000115C: */    lwz r0,0xD0(r23)
+    /* 0000115C: */    lwz r0,heapAllyCount(r23)
 loc_1160:
     /* 00001160: */    cmpw r25,r0
     /* 00001164: */    blt- loc_1170
     /* 00001168: */    li r8,0x4
     /* 0000116C: */    b loc_1194
 loc_1170:
-    /* 00001170: */    lwz r0,0xB0(r23)
-    /* 00001174: */    cmpwi r0,0x2
+    /* 00001170: */    lwz r0,heapMode(r23)
+    /* 00001174: */    cmpwi r0,modeEnumBTT
     /* 00001178: */    bge- loc_1190
     /* 0000117C: */    cmpwi r0,-0x0
     /* 00001180: */    bge- loc_1188
     /* 00001184: */    b loc_1190
 loc_1188:
-    /* 00001188: */    lwz r8,0xD8(r27)
+    /* 00001188: */    lwz r8,heapAllyOneType(r27)
     /* 0000118C: */    b loc_1194
 loc_1190:
     /* 00001190: */    li r8,0x4
 loc_1194:
-    /* 00001194: */    lwz r7,0xD4(r27)
+    /* 00001194: */    lwz r7,heapAllyOneChar(r27)
     /* 00001198: */    mr r3,r23
     /* 0000119C: */    addi r4,r1,0x60
     /* 000011A0: */    addi r5,r1,0x40
@@ -1602,13 +1652,13 @@ muIntroTask__createObjResFile:
     /* 00001630: */    lwz r12,0x28(r12)
     /* 00001634: */    mtctr r12
     /* 00001638: */    bctrl
-    /* 0000163C: */    lwz r0,0xB0(r31)
-    /* 00001640: */    cmpwi r0,0x2
+    /* 0000163C: */    lwz r0,heapMode(r31)
+    /* 00001640: */    cmpwi r0,modeEnumBTT
     /* 00001644: */    blt- loc_1650
     /* 00001648: */    li r0,-0x1
     /* 0000164C: */    b loc_1654
 loc_1650:
-    /* 00001650: */    lwz r0,0xD0(r31)
+    /* 00001650: */    lwz r0,heapAllyCount(r31)
 loc_1654:
     /* 00001654: */    cmpwi r0,-0x0
     /* 00001658: */    ble- loc_16CC
@@ -1743,9 +1793,9 @@ loc_1824:
 muIntroTask__processDefault:
     /* 0000183C: */    li r5,0x1
     /* 00001840: */    bl muIntroTask__getEnemyResFileName
-    /* 00001844: */    lwz r3,0xB0(r31)
+    /* 00001844: */    lwz r3,heapMode(r31)
     /* 00001848: */    li r0,-0x1
-    /* 0000184C: */    cmpwi r3,0x2
+    /* 0000184C: */    cmpwi r3,modeEnumBTT
     /* 00001850: */    blt- loc_1858
     /* 00001854: */    subi r0,r3,0x2
 loc_1858:
@@ -1790,7 +1840,7 @@ loc_18D8:
     /* 000018DC: */    lwz r3,-0x0(r3)                          [R_PPC_ADDR16_LO(0, 11, "loc_8059FFAC")]
     /* 000018E0: */    addi r3,r3,0xD0
     /* 000018E4: */    bl __unresolved                          [R_PPC_REL24(0, 4, "gfKeepFrameBuffer__endKeepScreen")]
-    /* 000018E8: */    lwz r5,0xAC(r31)
+    /* 000018E8: */    lwz r5,heapStageNum(r31)
     /* 000018EC: */    lis r4,-0x0                              [R_PPC_ADDR16_HA(13, 5, "loc_14C")]
     /* 000018F0: */    lwz r30,0x60(r31)
     /* 000018F4: */    addi r3,r1,0x10
@@ -1833,15 +1883,15 @@ loc_18D8:
     /* 00001988: */    lwz r12,0x34(r12)
     /* 0000198C: */    mtctr r12
     /* 00001990: */    bctrl
-    /* 00001994: */    lwz r3,0xB0(r31)
+    /* 00001994: */    lwz r3,heapMode(r31)
     /* 00001998: */    li r0,-0x1
-    /* 0000199C: */    cmpwi r3,0x2
+    /* 0000199C: */    cmpwi r3,modeEnumBTT
     /* 000019A0: */    blt- loc_19A8
     /* 000019A4: */    subi r0,r3,0x2
 loc_19A8:
     /* 000019A8: */    cmpwi r0,-0x0
     /* 000019AC: */    bge- loc_19C0
-    /* 000019B0: */    lwz r4,0xAC(r31)
+    /* 000019B0: */    lwz r4,heapStageNum(r31)
     /* 000019B4: */    mr r3,r31
     /* 000019B8: */    bl muIntroTask__createObjResFile
     /* 000019BC: */    b loc_1A4C
