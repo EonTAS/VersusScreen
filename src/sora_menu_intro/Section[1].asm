@@ -933,10 +933,10 @@ muIntroTask__createCharModel:
     addi r11,r1,0xD0
     bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___savegpr_21")]
     li r0,0x0
-    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 4, "fighterTypeSFXTable")]
+    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 4, "constSection")]
+    addi r30,r30,0x0                         [R_PPC_ADDR16_LO(13, 4, "constSection")]
     stw r0,0x14(r1)
     mr r23,r3
-    addi r30,r30,0x0                         [R_PPC_ADDR16_LO(13, 4, "fighterTypeSFXTable")]
     addi r3,r3,0xEC
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfFileIOHandle__getReturnStatus")]
     cmpwi r3,0x15
@@ -1471,8 +1471,8 @@ loc_134C:
     stw r0,0x34(r1)
     addi r11,r1,0x30
     bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___savegpr_24")]
-    lis r31,0x0                              [R_PPC_ADDR16_HA(13, 5, "commonBrresString")]
-    addi r31,r31,0x0                         [R_PPC_ADDR16_LO(13, 5, "commonBrresString")]
+#    lis r31,0x0                              [R_PPC_ADDR16_HA(13, 5, "dataSection")]
+#    addi r31,r31,0x0                         [R_PPC_ADDR16_LO(13, 5, "dataSection")]
     cmpwi r8,0x2
     mr r24,r4
     mr r25,r5

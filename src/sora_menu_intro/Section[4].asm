@@ -1,3 +1,4 @@
+constSection:
 fighterTypeSFXTable:
 #standard
         .4byte 0xFFFFFFFF #nosfx
@@ -14,6 +15,7 @@ fighterTypeSFXTable:
 enemyResFileNameList:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimpleMapString")]
         .byte 0x00, 0x00, 0x21, 0x00
+PanelList:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimplPanel00String")]
         .byte 0x01, 0x01, 0x10, 0x00
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimplPanel01String")]
@@ -28,6 +30,7 @@ zeroAnimUpdateRate:
         .float 0.0
 
 #appear to be unused
+threeAnimValue:
         .float 3.0
         .float 2.0
         .float 4.0

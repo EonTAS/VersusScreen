@@ -1,3 +1,4 @@
+dataSection:
 commonBrresString:
 .string "/menu/intro/enter/cmn.brres"
 .p2align 2
