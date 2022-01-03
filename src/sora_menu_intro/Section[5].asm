@@ -77,7 +77,6 @@ gfSceneName:
 .p2align 2
 #        .4byte 0x67665363
 #        .4byte 0x656E6500
-loc_1B8:
 gfScene:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfSceneName")]
         .4byte 0x00000000
