@@ -32,6 +32,9 @@
 .set heapAllyTwoChar, 0xDC
 .set heapAllyTwoType, 0xE0
 
+.set heapVoiceScriptCount, 0x18C
+
+
 muIntroTask__create:
     stwu r1,-0x50(r1)
     mflr r0
@@ -327,6 +330,7 @@ loc_354:
     mtlr r0
     addi r1,r1,0x10
     blr
+
 muFileIOHandle____ct:
     li r0,0x0
     stw r0,0x0(r3)
@@ -462,7 +466,6 @@ loc_5FC:
     mtlr r0
     addi r1,r1,0x20
     blr
-
 muIntroTask__makeSoundScript:
     stwu r1,-0x40(r1)
     mflr r0
@@ -473,46 +476,45 @@ muIntroTask__makeSoundScript:
     mr r23,r3
     li r0,-0x1
     cmpwi r4,modeEnumBTT
-    blt- 0f:
+    blt- 0f
     subi r0,r4,0x2
 0:
     cmpwi r0,0x0
     bge- BTTVoices
 VersusVoices:
-    lwz r5,0x18C(r3)
-                    #Versus voice line
+    lwz r5,heapVoiceScriptCount(r3)
+    addi r0,r5,0x1
+    stw r0,heapVoiceScriptCount(r3)
+    
+    #Versus voice line
     li r4,0x203E #sfx id
     li r0,0x3C   #sound length
-    stw r4,0x10C(r5)
-    stw r0,0x110(r5)
 
     rlwinm r5,r5,3,0,28
     add r5,r3,r5
-    lwz r4,0x18C(r3)
-
+    stw r4,0x10C(r5)
+    stw r0,0x110(r5)
 
     lwz r5,heapMode(r3)
-    addi r0,r4,0x1
     cmpwi r5,modeEnumTeam
-    stw r0,0x18C(r3)
-    bne- loc_6B4
-    rlwinm r0,r0,3,0,28
-    li r4,0x203C
+    bne- getEnemyCount
+#inTeams
+    lwz r5,heapVoiceScriptCount(r3)
+    addi r5,r5,0x1
+    stw r5,heapVoiceScriptCount(r3)
+
+    rlwinm r0,r5,3,0,28
     add r5,r3,r0
-    li r24,0x1
-    stw r4,0x10C(r5)
+    
+    #Team voice line
+    li r4,0x203C
     li r0,0x1E
+    stw r4,0x10C(r5)
     stw r0,0x110(r5)
-    lwz r4,0x18C(r3)
-    addi r0,r4,0x1
-    stw r0,0x18C(r3)
+
+    li r24,0x1 #enemy count = 1
     b loc_6C8
-loc_6B4:
-    cmpwi r5,modeEnumBTT
-    blt- loc_6C4
-    li r24,-0x1 #-1 enemys if BTT, should already be avoided
-    b loc_6C8*/
-loc_6C4:
+getEnemyCount:
     lwz r24,heapOpponentCount(r3)
 loc_6C8:
     lis r31,0x0                              [R_PPC_ADDR16_HA(13, 4, "loc_0")]
