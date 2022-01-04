@@ -13,26 +13,34 @@
 .set sceneAllyTwoChar, 0x38C
 .set sceneAllyTwoType, 0x390
 
-.set heapTableOffset, 0xAC
-.set heapStageNum, 0xAC
-.set heapMode, 0xB0
+.set heapSetupTableOffset, 0xAC
+.set heapStageNum, heapSetupTableOffset
+.set heapMode, heapSetupTableOffset+0x4
 .set    modeEnumStandard, 0x0
 .set    modeEnumTeam, 0x1
 .set    modeEnumBTT, 0x2
 
-.set heapOpponentCount, 0xB4
-.set heapEnemyOneChar, 0xB8
-.set heapEnemyOneType, 0xBC
-.set heapEnemyTwoChar, 0xC0
-.set heapEnemyTwoType, 0xC4
-.set heapEnemyThreeChar, 0xC8
-.set heapEnemyThreeType, 0xCC
 
-.set heapAllyCount, 0xD0
-.set heapAllyOneChar, 0xD4
-.set heapAllyOneType, 0xD8
-.set heapAllyTwoChar, 0xDC
-.set heapAllyTwoType, 0xE0
+.set heapEnemyCount, heapEnemyTable-0x4
+.set heapEnemyTable, heapSetupTableOffset+0xC
+.set heapEnemyChar, heapEnemyTable
+.set heapEnemyType, heapEnemyTable+0x4
+.set heapEnemyTableLength, 3
+
+.set heapEnemyOneChar, heapEnemyTable+0x0
+.set heapEnemyOneType, heapEnemyTable+0x4
+.set heapEnemyTwoChar, heapEnemyTable+0x8
+.set heapEnemyTwoType, heapEnemyTable+0xC
+.set heapEnemyThreeChar, heapEnemyTable+0x10
+.set heapEnemyThreeType, heapEnemyTable+0x14
+
+.set heapAllyCount, heapAllyTable-0x4
+.set heapAllyTable, heapSetupTableOffset+0x28
+.set heapAllyOneChar, heapAllyTable+0x0
+.set heapAllyOneType, heapAllyTable+0x4
+.set heapAllyTwoChar, heapAllyTable+0x8
+.set heapAllyTwoType, heapAllyTable+0xC
+.set heapAllyTableLength, 2
 
 .set heapEnemyChar, heapEnemyOneChar
 .set heapEnemyType, heapEnemyOneType
@@ -45,8 +53,12 @@
 .set    fighterTypeEnumMetal, 0x3
 
 .set heapVoiceScriptCount, 0x18C
-.set heapVoiceSFXID, 0x10C
-.set heapVoiceSFXLength, 0x110
+.set heapVoiceScriptCurrent, 0x190
+.set heapVoiceTimeIntoCurrent, 0x194
+
+.set heapVoiceScript, 0x10C
+.set heapVoiceSFXID, heapVoiceScript+0x0
+.set heapVoiceSFXLength, heapVoiceScript+0x4
 
 muIntroTask__create:
     stwu r1,-0x50(r1)
@@ -291,14 +303,13 @@ loc_354:
     li r7,0x8
     bl __unresolved                          [R_PPC_REL24(0, 4, "NMWException____construct_array")]
     lbz r0,0x2C(r31)
-    addi r3,r31,heapTableOffset
     stb r30,0x108(r31)
-    li r4,0x0
     rlwinm r0,r0,0,31,29
-    li r5,0x38
-    stw r30,0x18C(r31)
-    stw r30,0x190(r31)
-    stw r30,0x194(r31)
+    #zero the voice system
+    stw r30,heapVoiceScriptCount(r31)
+    stw r30,heapVoiceScriptCurrent(r31)
+    stw r30,heapVoiceTimeIntoCurrent(r31)
+
     stb r0,0x2C(r31)
     stw r30,0x40(r31)
     stw r30,0x44(r31)
@@ -327,8 +338,14 @@ loc_354:
     stw r30,0xA0(r31)
     stw r30,0xA4(r31)
     stw r30,0xA8(r31)
+
+    #zero the heap table
+    addi r3,r31,heapSetupTableOffset
+    li r4,0x0
+    li r5,0x38
     bl __unresolved                          [R_PPC_REL24(0, 1, "loc_8000443C")]
-    addi r3,r31,0x10C
+    #zero the voice script
+    addi r3,r31,heapVoiceScript
     li r4,0x0
     li r5,0x80
     bl __unresolved                          [R_PPC_REL24(0, 1, "loc_8000443C")]
@@ -523,7 +540,7 @@ VersusVoices:
     li r24,0x1 #enemy count = 1
     b loc_6C8
 getEnemyCount:
-    lwz r24,heapOpponentCount(r3)
+    lwz r24,heapEnemyCount(r3)
 EnemyLoop:
     lis r31,0x0                              [R_PPC_ADDR16_HA(13, 4, "fighterTypeSFXTable")]
     addi r31,r31,0x0                         [R_PPC_ADDR16_LO(13, 4, "fighterTypeSFXTable")]
@@ -573,7 +590,7 @@ loc_748:
     bge- loc_778
 
 getEnemyPrefix:
-    lwz r0,heapOpponentCount(r23)
+    lwz r0,heapEnemyCount(r23)
     cmpw r25,r0 #if past end of fighter list (shouldnt happen)
     bge- loc_79C
     lwz r0,heapMode(r23) #if not base mode, just say they are standard
@@ -596,7 +613,7 @@ loc_7A8:
     lwz r3,heapVoiceScriptCount(r23)
     rlwinm r0,r3,3,0,28
     addi r3,r3,0x1
-    stw r3,0x18C(r23)
+    stw r3,heapVoiceScriptCount(r23)
 
     add r3,r23,r0
     stw r4,heapVoiceSFXID(r3)
@@ -639,16 +656,15 @@ startEnemyLoop:
     blt+ EnemyNameLoop
     b muIntroTask__makeSoundScript_end
 BTTVoices:
-    lwz r5,0x18C(r3)
+    lwz r5,heapVoiceScriptCount(r3)
+    addi r0,r5,0x1
+    stw r0,heapVoiceScriptCount(r3)
     li r4,0x2035
     li r0,0x5A
     rlwinm r5,r5,3,0,28
     add r5,r3,r5
     stw r4,0x10C(r5)
     stw r0,0x110(r5)
-    lwz r4,0x18C(r3)
-    addi r0,r4,0x1
-    stw r0,0x18C(r3)
 muIntroTask__makeSoundScript_end:
     addi r11,r1,0x40
     bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___restgpr_21")]
@@ -680,7 +696,7 @@ muIntroTask__copyIntroSceneData:
     stw r0,heapMode(r31)
 
     lwz r0,sceneOpponentCount(r3)
-    stw r0,heapOpponentCount(r31)
+    stw r0,heapEnemyCount(r31)
 
     lwz r0,sceneAllyCount(r3)
     stw r0,heapAllyCount(r31)
@@ -704,16 +720,16 @@ muIntroTask__copyIntroSceneData:
     stw r0,heapEnemyThreeType(r31)
 
     lwz r0,sceneAllyOneChar(r3)
-    stw r0,sceneAllyOneChar(r31)
+    stw r0,heapAllyOneChar(r31)
 
     lwz r0,sceneAllyOneType(r3)
-    stw r0,sceneAllyOneType(r31)
+    stw r0,heapAllyOneType(r31)
 
     lwz r0,sceneAllyTwoChar(r3)
-    stw r0,sceneAllyTwoChar(r31)
+    stw r0,heapAllyTwoChar(r31)
     
     lwz r0,sceneAllyTwoType(r3)
-    stw r0,sceneAllyTwoType(r31)
+    stw r0,heapAllyTwoType(r31)
     
     lwz r31,0xC(r1)
     lwz r0,0x14(r1)
@@ -760,7 +776,7 @@ muIntroTask__loadFiles__enemyTeam:
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfFileIOHandle__readRequest")]
     b muIntroTask__loadFiles__allys
 muIntroTask__loadFiles__enemys:
-    lwz r30,heapOpponentCount(r31)
+    lwz r30,heapEnemyCount(r31)
 loc_A08:
     mr r29,r31
     li r28,0x0
@@ -994,7 +1010,7 @@ loc_DE8:
     li r0,-0x1
     b loc_DFC
 loc_DF8:
-    lwz r0,heapOpponentCount(r23)
+    lwz r0,heapEnemyCount(r23)
 loc_DFC:
     cmpwi r0,0x2
     beq- loc_E28
@@ -1044,7 +1060,7 @@ loc_E88:
     li r24,-0x1
     b loc_E9C
 loc_E98:
-    lwz r24,heapOpponentCount(r23)
+    lwz r24,heapEnemyCount(r23)
 loc_E9C:
     mr r26,r23
     mr r27,r23
@@ -1087,7 +1103,7 @@ loc_F08:
     li r0,-0x1
     b loc_F30
 loc_F2C:
-    lwz r0,heapOpponentCount(r23)
+    lwz r0,heapEnemyCount(r23)
 loc_F30:
     cmpw r25,r0
     blt- loc_F40
@@ -1156,7 +1172,7 @@ loc_1010:
     li r0,-0x1
     b loc_1024
 loc_1020:
-    lwz r0,heapOpponentCount(r23)
+    lwz r0,heapEnemyCount(r23)
 loc_1024:
     cmpwi r0,0x2
     beq- loc_1050
@@ -1266,12 +1282,12 @@ loc_1170:
     bge- loc_1188
     b loc_1190
 loc_1188:
-    lwz r8,heapAllyOneType(r27)
+    lwz r8,heapAllyType(r27)
     b loc_1194
 loc_1190:
     li r8,0x4
 loc_1194:
-    lwz r7,heapAllyOneChar(r27)
+    lwz r7,heapAllyChar(r27)
     mr r3,r23
     addi r4,r1,0x60
     addi r5,r1,0x40
@@ -1922,8 +1938,8 @@ loc_1A80:
     b loc_1BA0
 loc_1AE8:
 #play voice script, check if last sound has "finished" playing to go to next sound
-    lwz r0,0x194(r3)
-    lwz r4,0x190(r3)
+    lwz r0,heapVoiceTimeIntoCurrent(r3)
+    lwz r4,heapVoiceScriptCurrent(r3)
     cmpwi r0,0x0
     rlwinm r0,r4,3,0,28
     add r30,r3,r0
@@ -1938,25 +1954,25 @@ loc_1AE8:
     li r8,-0x1
     bl __unresolved                          [R_PPC_REL24(0, 4, "sndSystem__playSERem")]
 loc_1B20:
-    lwz r3,0x194(r31)
+    lwz r3,heapVoiceTimeIntoCurrent(r31)
     addi r3,r3,0x1
-    stw r3,0x194(r31)
+    stw r3,heapVoiceTimeIntoCurrent(r31)
     lwz r0,0x110(r30)
     cmplw r3,r0
     blt- loc_1B58
-    lwz r3,0x190(r31)
-    lwz r0,0x18C(r31)
+    lwz r3,heapVoiceScriptCurrent(r31)
+    lwz r0,heapVoiceScriptCount(r31)
     addi r3,r3,0x1
     cmpw r3,r0
-    stw r3,0x190(r31)
+    stw r3,heapVoiceScriptCurrent(r31)
     bge- loc_1B58
     li r0,0x0
-    stw r0,0x194(r31)
+    stw r0,heapVoiceTimeIntoCurrent(r31)
 loc_1B58:
-    lwz r3,0x190(r31)
-    lwz r0,0x18C(r31)
+    lwz r3,heapVoiceScriptCurrent(r31)
+    lwz r0,heapVoiceScriptCount(r31)
     cmpw r3,r0
-    blt- loc_1BA0
+    blt- loc_1BA0 #if script is finished then prompt scene change
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
     lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntroHeader")]
     lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfSceneHeader")]
