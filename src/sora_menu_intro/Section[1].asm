@@ -72,12 +72,7 @@ loc_30:
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfFileIOHandle__readRequest")]
     lwz r3,heapMode(r31)
-    li r5,-0x1
     cmpwi r3,modeEnumBTT
-    blt- loc_68
-    subi r5,r3,0x2
-loc_68:
-    cmpwi r5,0x0
     bge- loc_7C
     mr r3,r31
     bl muIntroTask__loadFiles
@@ -540,17 +535,20 @@ EnemyLoop:
     li r29,0x203D
     li r30,0x2B
 
-
+#empty space as a comma
     li r27,-0x1
     li r28,0xA
+
     lis r22,0x0                              [R_PPC_ADDR16_HA(0, 11, "loc_805A00E0")]
     b startEnemyLoop
 EnemyNameLoop:
     cmpwi r25,0x0
-    ble- loc_748
+    ble- loc_748 #skip the "and" or spcae if first enemy
+
     subi r0,r24,0x1
     cmpw r25,r0
-    bge- loc_728
+    bge- loc_728 #if at end of list, go say "AND"
+#comma to seperate enemys a little
     lwz r3,heapVoiceScriptCount(r23)
     rlwinm r0,r3,3,0,28
     addi r3,r3,0x1
@@ -1753,12 +1751,7 @@ loc_1824:
     li r5,0x1
     bl muIntroTask__getEnemyResFileName
     lwz r3,heapMode(r31)
-    li r0,-0x1
     cmpwi r3,modeEnumBTT
-    blt- loc_1858
-    subi r0,r3,0x2
-loc_1858:
-    cmpwi r0,0x0
     bge- loc_186C
     mr r3,r31
     bl muIntroTask__createCharModel
@@ -1844,12 +1837,7 @@ loc_18D8:
     mtctr r12
     bctrl
     lwz r3,heapMode(r31)
-    li r0,-0x1
     cmpwi r3,modeEnumBTT
-    blt- loc_19A8
-    subi r0,r3,0x2
-loc_19A8:
-    cmpwi r0,0x0
     bge- loc_19C0
     lwz r4,heapStageNum(r31)
     mr r3,r31
@@ -1933,15 +1921,17 @@ loc_1A80:
     stb r0,0x108(r31)
     b loc_1BA0
 loc_1AE8:
+#play voice script, check if last sound has "finished" playing to go to next sound
     lwz r0,0x194(r3)
     lwz r4,0x190(r3)
     cmpwi r0,0x0
     rlwinm r0,r4,3,0,28
     add r30,r3,r0
     bgt- loc_1B20
+#play next sound
     lis r3,0x0                               [R_PPC_ADDR16_HA(0, 11, "loc_805A01D0")]
-    lwz r4,0x10C(r30)
     lwz r3,0x0(r3)                          [R_PPC_ADDR16_LO(0, 11, "loc_805A01D0")]
+    lwz r4,0x10C(r30)
     li r5,-0x1
     li r6,0x0
     li r7,0x0
