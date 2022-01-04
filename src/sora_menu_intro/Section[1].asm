@@ -538,10 +538,10 @@ VersusVoices:
     stw r0,heapVoiceSFXLength(r5)
 
     li r24,0x1 #enemy count = 1
-    b loc_6C8
+    b enemyLoop
 getEnemyCount:
     lwz r24,heapEnemyCount(r3)
-EnemyLoop:
+enemyLoop:
     lis r31,0x0                              [R_PPC_ADDR16_HA(13, 4, "fighterTypeSFXTable")]
     addi r31,r31,0x0                         [R_PPC_ADDR16_LO(13, 4, "fighterTypeSFXTable")]
 #copy heap register
@@ -558,9 +558,9 @@ EnemyLoop:
 
     lis r22,0x0                              [R_PPC_ADDR16_HA(0, 11, "loc_805A00E0")]
     b startEnemyLoop
-EnemyNameLoop:
+enemyNameLoop:
     cmpwi r25,0x0
-    ble- loc_748 #skip the "and" or spcae if first enemy
+    ble- getEnemyPrefix #skip the "and" or spcae if first enemy
 
     subi r0,r24,0x1
     cmpw r25,r0
@@ -574,7 +574,7 @@ EnemyNameLoop:
     add r3,r23,r0
     stw r27,heapVoiceSFXID(r3)
     stw r28,heapVoiceSFXLength(r3)
-    b loc_748
+    b getEnemyPrefix
 loc_728:
     lwz r3,heapVoiceScriptCount(r23)
     rlwinm r0,r3,3,0,28
@@ -585,10 +585,6 @@ loc_728:
     stw r29,heapVoiceSFXID(r3)
     stw r30,heapVoiceSFXLength(r3)
 
-loc_748:
-    cmpwi r25,0x0
-    bge- loc_778
-
 getEnemyPrefix:
     lwz r0,heapEnemyCount(r23)
     cmpw r25,r0 #if past end of fighter list (shouldnt happen)
@@ -598,7 +594,8 @@ getEnemyPrefix:
     bne- loc_79C
     lwz r0,heapEnemyType(r26)
     b loc_7A8
-loc_79C: #Team X
+loc_79C:
+#Team X
     li r0,0x0
 loc_7A8:
     #get voice line for the prefix (e.g. metal/giant)
@@ -653,7 +650,7 @@ nextEnemy:
     addi r25,r25,0x1
 startEnemyLoop:
     cmpw r25,r24
-    blt+ EnemyNameLoop
+    blt+ enemyNameLoop
     b muIntroTask__makeSoundScript_end
 BTTVoices:
     lwz r5,heapVoiceScriptCount(r3)
@@ -736,7 +733,6 @@ muIntroTask__copyIntroSceneData:
     mtlr r0
     addi r1,r1,0x10
     blr
-loc_950:
 muIntroTask__loadFiles:
 #3 = muIntroTaskObj
     stwu r1,-0xA0(r1)
@@ -758,7 +754,7 @@ muIntroTask__loadFiles:
     cmpwi r0,modeEnumBTT
     beq muIntroTask__loadFiles__end # if target test just exit, no fighter images to load
     cmpwi r0,modeEnumTeam
-    bne- loc_9F4 
+    bne- muIntroTask__loadFiles__enemys
 muIntroTask__loadFiles__enemyTeam:
     # team mode = just load the one enemy fighter and then go to ally loading
     li r8,0x0
@@ -1408,7 +1404,7 @@ loc_132C:
     mtlr r0
     addi r1,r1,0xD0
     blr
-loc_134C:
+    
 muIntroTask__getFighterFileNames:
 #3 = IntroTaskObj
 #4 = string output, /enter/chr00N.brres
