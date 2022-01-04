@@ -63,7 +63,7 @@ muIntroTask__create:
     mr r31,r3
 loc_30:
     mr r3,r31
-    bl loc_894
+    bl muIntroTask__copyIntroSceneData
     lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "commonBrresString")]
     addi r3,r31,0xE8
     addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 5, "commonBrresString")]
@@ -80,7 +80,7 @@ loc_68:
     cmpwi r5,0x0
     bge- loc_7C
     mr r3,r31
-    bl loc_950
+    bl muIntroTask__loadFiles
     b loc_AC
 loc_7C:
     lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "miniBrresString")]
@@ -108,6 +108,7 @@ loc_AC:
     mtlr r0
     addi r1,r1,0x50
     blr
+
 muIntroTask____ct:
     stwu r1,-0x10(r1)
     mflr r0
@@ -372,6 +373,7 @@ loc_48C:
     mtlr r0
     addi r1,r1,0x10
     blr
+
 muIntroTask____dt:
     stwu r1,-0x20(r1)
     mflr r0
@@ -479,20 +481,18 @@ loc_5FC:
     mtlr r0
     addi r1,r1,0x20
     blr
+
 muIntroTask__makeSoundScript:
     stwu r1,-0x40(r1)
     mflr r0
     stw r0,0x44(r1)
     addi r11,r1,0x40
     bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___savegpr_21")]
-    lwz r4,heapMode(r3)
     mr r23,r3
     li r0,-0x1
+    
+    lwz r4,heapMode(r3)
     cmpwi r4,modeEnumBTT
-    blt- 0f
-    subi r0,r4,0x2
-0:
-    cmpwi r0,0x0
     bge- BTTVoices
 VersusVoices:
     lwz r5,heapVoiceScriptCount(r3)
@@ -659,7 +659,7 @@ muIntroTask__makeSoundScript_end:
     addi r1,r1,0x40
     blr
 
-loc_894:
+muIntroTask__copyIntroSceneData:
     stwu r1,-0x10(r1)
     mflr r0
     stw r0,0x14(r1)
@@ -854,6 +854,7 @@ loc_BEC:
     mtlr r0
     addi r1,r1,0x10
     blr
+
 muIntroTask__createCharModel:
     stwu r1,-0xD0(r1)
     mflr r0
@@ -900,10 +901,10 @@ loc_C6C:
     bl __unresolved                          [R_PPC_REL24(0, 4, "nw4r3g3d12ScnMdlExpandFP12MEMAlloc__Construct")]
     lwz r0,heapMode(r23)
     stw r3,0xA8(r23)
-    cmpwi r0,0x1
+    cmpwi r0,modeEnumTeam
     bne- loc_E88
-    li r24,0xB
-    beq- loc_CD4
+    li r24,0xB #team
+    b loc_CD4
     bge- loc_CDC
     cmpwi r0,0x0
     bge- loc_CCC
