@@ -54,7 +54,8 @@ simpleMapTopNXString:
 scIntroName:
 .string "scIntro"
 .p2align 2
-scIntroChildren:
+
+scIntroInheritance:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfScene")]
         .4byte 0x00000000
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muMenu")]
@@ -63,26 +64,22 @@ scIntroChildren:
         .4byte 0x00000000
 scIntro:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "scIntroName")]
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "scIntroChildren")]
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "scIntroInheritance")]
         
 muMenuName:
 .string "muMenu"
 .p2align 2
-#        .4byte 0x6D754D65
-#        .4byte 0x6E750000
-muMenuChildren:
+muMenuInheritance:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfScene")]
         .4byte 0x00000000
         .4byte 0x00000000
         .4byte 0x00000000
 muMenu:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muMenuName")]
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muMenuChildren")]
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muMenuInheritance")]
 gfSceneName:
 .string "gfScene"
 .p2align 2
-#        .4byte 0x67665363
-#        .4byte 0x656E6500
 gfScene:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfSceneName")]
         .4byte 0x00000000
@@ -115,22 +112,17 @@ muIntroTaskObj:
 muIntroTaskName:
 .string "muIntroTask"
 .p2align 2
-#        .4byte 0x6D75496E
-#        .4byte 0x74726F54
-#        .4byte 0x61736B00
-muIntroTaskChildren:
+muIntroTaskInheritance:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfTask")]
         .4byte 0x00000000
         .4byte 0x00000000
         .4byte 0x00000000
 muIntroTask:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muIntroTaskName")]
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muIntroTaskChildren")]
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muIntroTaskInheritance")]
 gfTaskName:
 .string "gfTask"
 .p2align 2
-#        .4byte 0x67665461
-#        .4byte 0x736B0000
 gfTask:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfTaskName")]
         .4byte 0x00000000
