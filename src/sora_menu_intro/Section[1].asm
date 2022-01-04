@@ -36,6 +36,8 @@
 
 .set heapEnemyChar, heapEnemyOneChar
 .set heapEnemyType, heapEnemyOneType
+.set heapAllyChar, heapAllyOneChar
+.set heapAllyType, heapAllyOneType
 
 .set    fighterTypeEnumStandard, 0x0
 .set    fighterTypeEnumDouble, 0x1
@@ -721,6 +723,8 @@ loc_894:
     addi r1,r1,0x10
     blr
 loc_950:
+muIntroTask__loadFiles:
+#3 = muIntroTaskObj
     stwu r1,-0xA0(r1)
     mflr r0
     lis r4,0x0                               [R_PPC_ADDR16_HA(13, 5, "charCommonBrresString")]
@@ -737,84 +741,40 @@ loc_950:
     stw r28,0x90(r1)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfFileIOHandle__readRequest")]
     lwz r0,heapMode(r31)
-    cmpwi r0,0x1
+    cmpwi r0,modeEnumBTT
+    beq muIntroTask__loadFiles__end # if target test just exit, no fighter images to load
+    cmpwi r0,modeEnumTeam
     bne- loc_9F4 
-    beq- loc_9B4
-    bge- loc_9BC
-    cmpwi r0,0x0
-    bge- loc_9AC
-    b loc_9BC
-loc_9AC:
-    lwz r8,heapEnemyOneType(r31)
-    b loc_9C0
-loc_9B4:
+muIntroTask__loadFiles__enemyTeam:
+    # team mode = just load the one enemy fighter and then go to ally loading
     li r8,0x0
-    b loc_9C0
-loc_9BC:
-    li r8,0x4
-loc_9C0:
     lwz r7,heapEnemyOneChar(r31)
     mr r3,r31
     addi r4,r1,0x48
     addi r5,r1,0x28
     addi r6,r1,0x8
-    bl loc_134C
+    bl muIntroTask__getFighterFileNames
     addi r3,r31,0xF0
     addi r4,r1,0x48
     li r5,0x2A
     li r6,0x0
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfFileIOHandle__readRequest")]
-    b loc_AC0
-loc_9F4:
-    cmpwi r0,0x2
-    blt- loc_A04
-    li r30,-0x1
-    b loc_A08
-loc_A04:
+    b muIntroTask__loadFiles__allys
+muIntroTask__loadFiles__enemys:
     lwz r30,heapOpponentCount(r31)
 loc_A08:
     mr r29,r31
     li r28,0x0
     b loc_AB8
 loc_A14:
-    cmpwi r28,0x0
-    bge- loc_A44
-    lwz r0,heapMode(r31)
-    cmpwi r0,modeEnumBTT
-    blt- loc_A30
-    li r0,-0x1
-    b loc_A34
-loc_A30:
-    lwz r0,heapOpponentCount(r31)
-loc_A34:
-    cmpw r28,r0
-    blt- loc_A44
-    li r8,0x4
-    b loc_A74
-loc_A44:
-    lwz r0,heapMode(r31)
-    cmpwi r0,0x1
-    beq- loc_A68
-    bge- loc_A70
-    cmpwi r0,0x0
-    bge- loc_A60
-    b loc_A70
-loc_A60:
-    lwz r8,heapEnemyOneType(r29)
-    b loc_A74
-loc_A68:
-    li r8,0x0
-    b loc_A74
-loc_A70:
-    li r8,0x4
-loc_A74:
-    lwz r7,heapEnemyOneChar(r29)
+    lwz r8,heapEnemyType(r29)
+    lwz r7,heapEnemyChar(r29)
     mr r3,r31
     addi r4,r1,0x48
     addi r5,r1,0x28
     addi r6,r1,0x8
-    bl loc_134C
+    bl muIntroTask__getFighterFileNames
     addi r0,r28,0x2
     addi r4,r1,0x48
     rlwinm r0,r0,2,0,29
@@ -829,52 +789,19 @@ loc_A74:
 loc_AB8:
     cmpw r28,r30
     blt+ loc_A14
-loc_AC0:
-    lwz r0,heapMode(r31)
-    cmpwi r0,modeEnumBTT
-    blt- loc_AD4
-    li r30,-0x1
-    b loc_AD8
-loc_AD4:
+muIntroTask__loadFiles__allys:
     lwz r30,heapAllyCount(r31)
-loc_AD8:
     mr r29,r31
     li r28,0x0
     b loc_B7C
 loc_AE4:
-    cmpwi r28,0x0
-    bge- loc_B14
-    lwz r0,heapMode(r31)
-    cmpwi r0,modeEnumBTT
-    blt- loc_B00
-    li r0,-0x1
-    b loc_B04
-loc_B00:
-    lwz r0,heapAllyCount(r31)
-loc_B04:
-    cmpw r28,r0
-    blt- loc_B14
-    li r8,0x4
-    b loc_B38
-loc_B14:
-    lwz r0,heapMode(r31)
-    cmpwi r0,modeEnumBTT
-    bge- loc_B34
-    cmpwi r0,modeEnumStandard
-    bge- loc_B2C
-    b loc_B34
-loc_B2C:
-    lwz r8,heapAllyOneType(r29)
-    b loc_B38
-loc_B34:
-    li r8,0x4
-loc_B38:
-    lwz r7,heapAllyOneChar(r29)
+    lwz r8,heapAllyType(r29)
+    lwz r7,heapAllyChar(r29)
     mr r3,r31
     addi r4,r1,0x48
     addi r5,r1,0x28
     addi r6,r1,0x8
-    bl loc_134C
+    bl muIntroTask__getFighterFileNames
     addi r0,r28,0x6
     addi r4,r1,0x48
     rlwinm r0,r0,2,0,29
@@ -889,6 +816,7 @@ loc_B38:
 loc_B7C:
     cmpw r28,r30
     blt+ loc_AE4
+muIntroTask__loadFiles__end:
     lwz r0,0xA4(r1)
     lwz r31,0x9C(r1)
     lwz r30,0x98(r1)
@@ -897,6 +825,7 @@ loc_B7C:
     mtlr r0
     addi r1,r1,0xA0
     blr
+
 muIntroTask__isLoadFinished:
     stwu r1,-0x10(r1)
     mflr r0
@@ -993,7 +922,7 @@ loc_CE0:
     addi r4,r1,0x60
     addi r5,r1,0x40
     addi r6,r1,0x20
-    bl loc_134C
+    bl muIntroTask__getFighterFileNames
     li r0,0x0
     addi r3,r23,0xF0
     stw r0,0x10(r1)
@@ -1187,7 +1116,7 @@ loc_F70:
     addi r4,r1,0x60
     addi r5,r1,0x40
     addi r6,r1,0x20
-    bl loc_134C
+    bl muIntroTask__getFighterFileNames
     mr r3,r28
     subfic r4,r25,0x1C
     li r5,0x0
@@ -1348,7 +1277,7 @@ loc_1194:
     addi r4,r1,0x60
     addi r5,r1,0x40
     addi r6,r1,0x20
-    bl loc_134C
+    bl muIntroTask__getFighterFileNames
     mr r3,r26
     subfic r4,r25,0x1E
     li r5,0x0
@@ -1465,6 +1394,13 @@ loc_132C:
     addi r1,r1,0xD0
     blr
 loc_134C:
+muIntroTask__getFighterFileNames:
+#3 = IntroTaskObj
+#4 = string output, /enter/chr00N.brres
+#5 = string output, /ItrSimpleChr000N_TopN__0
+#6 = string output, /ItrSimpleChr000N_TopN__0, might vary idk
+#7 = fighter ID
+#8 = fighter Type
     stwu r1,-0x30(r1)
     mflr r0
     stw r0,0x34(r1)
@@ -1757,6 +1693,7 @@ loc_16CC:
     addi r1,r1,0x20
     blr
 muIntroTask__dispEnemy:
+muIntroTask__processDefault:
     stwu r1,-0x40(r1)
     mflr r0
     stw r0,0x44(r1)
@@ -1812,7 +1749,6 @@ loc_1824:
     addi r6,r31,0x40
     stw r0,0x40(r31)
     addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 4, "enemyResFileNameList")]
-muIntroTask__processDefault:
     li r5,0x1
     bl muIntroTask__getEnemyResFileName
     lwz r3,heapMode(r31)
