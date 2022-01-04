@@ -6,7 +6,7 @@
 .set sceneEnemyTwoChar, 0x370
 .set sceneEnemyTwoType, 0x374
 .set sceneEnemyThreeChar, 0x378
-.set sceneEnemeyThreeType, 0x37C
+.set sceneEnemyThreeType, 0x37C
 .set sceneAllyCount, 0x380
 .set sceneAllyOneChar, 0x384
 .set sceneAllyOneType, 0x388
@@ -702,8 +702,8 @@ loc_894:
     lwz r0,sceneEnemyThreeChar(r3)
     stw r0,heapEnemyThreeChar(r31)
 
-    lwz r0,sceneEnemeyThreeType(r3)
-    stw r0,heapEnemeyThreeType(r31)
+    lwz r0,sceneEnemyThreeType(r3)
+    stw r0,heapEnemyThreeType(r31)
 
     lwz r0,sceneAllyOneChar(r3)
     stw r0,sceneAllyOneChar(r31)
