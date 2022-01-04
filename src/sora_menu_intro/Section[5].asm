@@ -51,18 +51,19 @@ zeroString:
 simpleMapTopNXString:
 .string "ItrSimpleMap0000_TopN__%d"
 .p2align 2
+
 scIntroName:
 .string "scIntro"
 .p2align 2
-
 scIntroInheritance:
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfScene")]
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfSceneHeader")]
         .4byte 0x00000000
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muMenu")]
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muMenuHeader")]
         .4byte 0x00000000
         .4byte 0x00000000
         .4byte 0x00000000
-scIntro:
+
+scIntroHeader:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "scIntroName")]
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "scIntroInheritance")]
         
@@ -70,17 +71,17 @@ muMenuName:
 .string "muMenu"
 .p2align 2
 muMenuInheritance:
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfScene")]
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfSceneHeader")]
         .4byte 0x00000000
         .4byte 0x00000000
         .4byte 0x00000000
-muMenu:
+muMenuHeader:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muMenuName")]
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muMenuInheritance")]
 gfSceneName:
 .string "gfScene"
 .p2align 2
-gfScene:
+gfSceneHeader:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfSceneName")]
         .4byte 0x00000000
 muIntroTaskObj:
@@ -113,17 +114,17 @@ muIntroTaskName:
 .string "muIntroTask"
 .p2align 2
 muIntroTaskInheritance:
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfTask")]
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfTaskHeader")]
         .4byte 0x00000000
         .4byte 0x00000000
         .4byte 0x00000000
-muIntroTask:
+muIntroTaskHeader:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muIntroTaskName")]
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muIntroTaskInheritance")]
 gfTaskName:
 .string "gfTask"
 .p2align 2
-gfTask:
+gfTaskHeader:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "gfTaskName")]
         .4byte 0x00000000
 unresolvedMessage:

@@ -664,11 +664,11 @@ loc_894:
     stw r31,0xC(r1)
     mr r31,r3
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntroHeader")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfSceneHeader")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntroHeader")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfSceneHeader")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1624,11 +1624,11 @@ muIntroTask__createObjResFile:
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__setFrameMatCol")]
     lwz r28,0x10(r28)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r29,0x0                              [R_PPC_ADDR16_HA(13, 5, "scIntro")]
-    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 5, "gfScene")]
+    lis r29,0x0                              [R_PPC_ADDR16_HA(13, 5, "scIntroHeader")]
+    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 5, "gfSceneHeader")]
     lwz r3,0x4(r3)
-    addi r5,r29,0x0                          [R_PPC_ADDR16_LO(13, 5, "scIntro")]
-    addi r6,r30,0x0                          [R_PPC_ADDR16_LO(13, 5, "gfScene")]
+    addi r5,r29,0x0                          [R_PPC_ADDR16_LO(13, 5, "scIntroHeader")]
+    addi r6,r30,0x0                          [R_PPC_ADDR16_LO(13, 5, "gfSceneHeader")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1644,8 +1644,8 @@ muIntroTask__createObjResFile:
     lwz r28,0xA8(r31)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
     lwz r3,0x4(r3)
-    addi r5,r29,0x0                          [R_PPC_ADDR16_LO(13, 5, "scIntro")]
-    addi r6,r30,0x0                          [R_PPC_ADDR16_LO(13, 5, "gfScene")]
+    addi r5,r29,0x0                          [R_PPC_ADDR16_LO(13, 5, "scIntroHeader")]
+    addi r6,r30,0x0                          [R_PPC_ADDR16_LO(13, 5, "gfSceneHeader")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1687,11 +1687,11 @@ loc_1654:
     lwz r29,0x9C(r31)
     lwz r28,0x10(r29)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntroHeader")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfSceneHeader")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntroHeader")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfSceneHeader")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1731,11 +1731,11 @@ loc_16CC:
     bctrl
     lwz r28,0x10(r28)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntroHeader")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfSceneHeader")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntroHeader")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfSceneHeader")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1889,11 +1889,11 @@ loc_18D8:
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfModelAnimation__setUpdateRate")]
     lwz r30,0x10(r30)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntroHeader")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfSceneHeader")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntroHeader")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfSceneHeader")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1937,11 +1937,11 @@ loc_19C0:
     bctrl
     lwz r30,0x10(r29)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntroHeader")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfSceneHeader")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntroHeader")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfSceneHeader")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1956,11 +1956,11 @@ loc_19C0:
     bctrl
 loc_1A4C:
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntroHeader")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfSceneHeader")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntroHeader")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfSceneHeader")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -1970,11 +1970,11 @@ loc_1A4C:
     li r30,-0x1
 loc_1A80:
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntroHeader")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfSceneHeader")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntroHeader")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfSceneHeader")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
@@ -2031,11 +2031,11 @@ loc_1B58:
     cmpw r3,r0
     blt- loc_1BA0
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
-    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntro")]
-    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfScene")]
+    lis r5,0x0                               [R_PPC_ADDR16_HA(13, 5, "scIntroHeader")]
+    lis r6,0x0                               [R_PPC_ADDR16_HA(13, 5, "gfSceneHeader")]
     lwz r3,0x4(r3)
-    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntro")]
-    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfScene")]
+    addi r5,r5,0x0                           [R_PPC_ADDR16_LO(13, 5, "scIntroHeader")]
+    addi r6,r6,0x0                           [R_PPC_ADDR16_LO(13, 5, "gfSceneHeader")]
     li r4,0x4
     li r7,0x0
     bl __unresolved                          [R_PPC_REL24(0, 4, "MWRTTI____dynamic_cast")]
