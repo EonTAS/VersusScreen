@@ -46,7 +46,6 @@
 .set heapVoiceSFXID, 0x10C
 .set heapVoiceSFXLength, 0x110
 
-
 muIntroTask__create:
     stwu r1,-0x50(r1)
     mflr r0
@@ -625,10 +624,10 @@ loc_818:
     #exchangeSelchkind2SelCharNarrationSndID[1]
     bl __unresolved                          [R_PPC_REL24(0, 4, "loc_800AF8B8")]
 loc_820:
-    lwz r3,heapVoiceScriptCount(r23)
-    rlwinm r0,r3,3,0,28
-    addi r3,r3,0x1
-    stw r3,heapVoiceScriptCount(r23)
+    lwz r5, heapVoiceScriptCount(r23)
+    rlwinm r0,r5,3,0,28
+    addi r5,r5,0x1
+    stw r5,heapVoiceScriptCount(r23)
     add r4,r23,r0
     stw r21,heapVoiceSFXID(r4)
     stw r3,heapVoiceSFXLength(r4)
