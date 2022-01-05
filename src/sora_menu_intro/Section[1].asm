@@ -763,7 +763,7 @@ muIntroTask__loadFiles__enemyTeam:
     addi r4,r1,0x48
     addi r5,r1,0x28
     addi r6,r1,0x8
-    bl muIntroTask__getFighterFileNames
+    bl muIntroTask__getEnemyResFileName
     addi r3,r31,0xF0
     addi r4,r1,0x48
     li r5,0x2A
@@ -784,7 +784,7 @@ loc_A14:
     addi r4,r1,0x48
     addi r5,r1,0x28
     addi r6,r1,0x8
-    bl muIntroTask__getFighterFileNames
+    bl muIntroTask__getEnemyResFileName
     addi r0,r28,0x2
     addi r4,r1,0x48
     rlwinm r0,r0,2,0,29
@@ -811,7 +811,7 @@ loc_AE4:
     addi r4,r1,0x48
     addi r5,r1,0x28
     addi r6,r1,0x8
-    bl muIntroTask__getFighterFileNames
+    bl muIntroTask__getEnemyResFileName
     addi r0,r28,0x6
     addi r4,r1,0x48
     rlwinm r0,r0,2,0,29
@@ -897,11 +897,11 @@ loc_C58:
 loc_C6C:
     lwz r0,0x14(r1)
     mr r3,r23
-    addi r4,r30,0x28
+    addi r4,r30,0x28 #panelList
     addi r6,r23,0x44
     stw r0,0x44(r23)
     li r5,0x4
-    bl muIntroTask__getEnemyResFileName
+    bl muIntroTask__createEnemyMuObject
     li r3,0x2A
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfHeapManager__getMEMAllocator")]
     lwz r6,0x68(r23)
@@ -933,7 +933,7 @@ loc_CE0:
     addi r4,r1,0x60
     addi r5,r1,0x40
     addi r6,r1,0x20
-    bl muIntroTask__getFighterFileNames
+    bl muIntroTask__getEnemyResFileName
     li r0,0x0
     addi r3,r23,0xF0
     stw r0,0x10(r1)
@@ -1127,7 +1127,7 @@ loc_F70:
     addi r4,r1,0x60
     addi r5,r1,0x40
     addi r6,r1,0x20
-    bl muIntroTask__getFighterFileNames
+    bl muIntroTask__getEnemyResFileName
     mr r3,r28
     subfic r4,r25,0x1C
     li r5,0x0
@@ -1288,7 +1288,7 @@ loc_1194:
     addi r4,r1,0x60
     addi r5,r1,0x40
     addi r6,r1,0x20
-    bl muIntroTask__getFighterFileNames
+    bl muIntroTask__getEnemyResFileName
     mr r3,r26
     subfic r4,r25,0x1E
     li r5,0x0
@@ -1360,11 +1360,11 @@ loc_12A0:
 loc_12A4:
     mr r22,r23
     li r21,0x0
-    lis r25,0x0                              [R_PPC_ADDR16_HA(13, 5, "extraStringList")]
+    lis r25,0x0                              [R_PPC_ADDR16_HA(13, 5, "posString")]
     b loc_12E4
 loc_12B4:
     addi r3,r1,0x18
-    addi r4,r25,0x0                          [R_PPC_ADDR16_LO(13, 5, "extraStringList")]
+    addi r4,r25,0x0                          [R_PPC_ADDR16_LO(13, 5, "posString")]
     add r5,r21,r26
     crclr 6
     bl __unresolved                          [R_PPC_REL24(0, 4, "printf__sprintf")]
@@ -1380,11 +1380,11 @@ loc_12E4:
     blt+ loc_12B4
     mr r22,r23
     li r21,0x0
-    lis r24,0x0                              [R_PPC_ADDR16_HA(13, 5, "extraStringList")]
+    lis r24,0x0                              [R_PPC_ADDR16_HA(13, 5, "posString")]
     b loc_132C
 loc_12FC:
     addi r3,r1,0x18
-    addi r4,r24,0x0                          [R_PPC_ADDR16_LO(13, 5, "extraStringList")]
+    addi r4,r24,0x0                          [R_PPC_ADDR16_LO(13, 5, "posString")]
     addi r5,r21,0x1E
     crclr 6
     bl __unresolved                          [R_PPC_REL24(0, 4, "printf__sprintf")]
@@ -1405,7 +1405,7 @@ loc_132C:
     addi r1,r1,0xD0
     blr
     
-muIntroTask__getFighterFileNames:
+muIntroTask__getEnemyResFileName:
 #3 = IntroTaskObj
 #4 = string output, /enter/chr00N.brres
 #5 = string output, /ItrSimpleChr000N_TopN__0
@@ -1482,7 +1482,11 @@ loc_13C0:
     mtlr r0
     addi r1,r1,0x30
     blr
-muIntroTask__getEnemyResFileName:
+muIntroTask__createEnemyMuObject:
+#3 = muIntroTaskObject
+#4 = list of strings
+#5 = length of list
+#6 = store object here 
     stwu r1,-0x70(r1)
     mflr r0
     stw r0,0x74(r1)
@@ -1755,13 +1759,13 @@ loc_1810:
     bl __unresolved                          [R_PPC_REL24(0, 4, "nw4r3g3d7ResFileFv__Init")]
 loc_1824:
     lwz r0,0x8(r1)
-    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 4, "enemyResFileNameList")]
+    lis r4,0x0                               [R_PPC_ADDR16_HA(13, 4, "mapFileList")]
     mr r3,r31
-    addi r6,r31,0x40
+    addi r6,r31,0x40 
     stw r0,0x40(r31)
-    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 4, "enemyResFileNameList")]
+    addi r4,r4,0x0                           [R_PPC_ADDR16_LO(13, 4, "mapFileList")]
     li r5,0x1
-    bl muIntroTask__getEnemyResFileName
+    bl muIntroTask__createEnemyMuObject
     lwz r3,heapMode(r31)
     cmpwi r3,modeEnumBTT
     bge- loc_186C

@@ -12,10 +12,10 @@ fighterTypeSFXTable:
 #metal
         .4byte 0x00002040
         .4byte 0x00000031
-enemyResFileNameList:
+mapFileList:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimpleMapString")]
         .byte 0x00, 0x00, 0x21, 0x00
-PanelList:
+panelList:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimplPanel00String")]
         .byte 0x01, 0x01, 0x10, 0x00
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimplPanel01String")]

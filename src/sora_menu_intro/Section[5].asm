@@ -27,7 +27,7 @@ ItrSimplPanel10String:
 .string "ItrSimplePanel0010_TopN"
 .p2align 2
 
-extraStringList:
+posString:
 .string "pos%02d"
 .p2align 2
 chrString:
