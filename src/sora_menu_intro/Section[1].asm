@@ -60,6 +60,17 @@
 .set heapVoiceSFXID, heapVoiceScript+0x0
 .set heapVoiceSFXLength, heapVoiceScript+0x4
 
+.set animRateChoiceEnumZero = 0x4
+.set animRateChoiceEnumOne = 0x8
+
+.set vis0AnimChoicesEnumInvalid = 0x10
+.set vis0AnimChoicesEnumZero = 0x0
+.set vis0AnimChoicesEnumOne = 0x4
+.set vis0AnimChoicesEnumTwoFirst = 0x8
+.set vis0AnimChoicesEnumTwoSecond = 0x14
+.set vis0AnimChoicesEnumThree = 0xC
+.set vis0AnimChoicesEnumTeams = 0x8
+.set vis0AnimChoicesEnumAlly = 0x18
 muIntroTask__create:
     stwu r1,-0x50(r1)
     mflr r0
@@ -866,21 +877,23 @@ loc_BEC:
     blr
 
 muIntroTask__createCharModel:
-    stwu r1,-0xD0(r1)
+    stwu r1,-0xD4(r1)
     mflr r0
-    stw r0,0xD4(r1)
-    addi r11,r1,0xD0
-    bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___savegpr_21")]
+    stw r0,0xD8(r1)
+    addi r11,r1,0xD4
+    bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___savegpr_20")]
     li r0,0x0
-    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 4, "constSection")]
-    addi r30,r30,0x0                         [R_PPC_ADDR16_LO(13, 4, "constSection")]
+    lis r30,0x0                              [R_PPC_ADDR16_HA(13, 4, "animRateChoices")]
+    addi r30,r30,0x0                         [R_PPC_ADDR16_LO(13, 4, "animRateChoices")]
+    lis r20,0x0                              [R_PPC_ADDR16_HA(13, 4, "vis0AnimChoices")]
+    addi r20,r20,0x0                         [R_PPC_ADDR16_LO(13, 4, "vis0AnimChoices")]
     stw r0,0x14(r1)
     mr r23,r3
     addi r3,r3,0xEC
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfFileIOHandle__getReturnStatus")]
     cmpwi r3,0x15
     bne- loc_C44
-    li r24,0x0
+    li r24,0x0 
     b loc_C58
 loc_C44:
     addi r3,r23,0xEC
@@ -897,7 +910,8 @@ loc_C58:
 loc_C6C:
     lwz r0,0x14(r1)
     mr r3,r23
-    addi r4,r30,0x28 #panelList
+    lis r4,0x0                              [R_PPC_ADDR16_HA(13, 4, "panelList")]
+    addi r4,r4,0x0                         [R_PPC_ADDR16_LO(13, 4, "panelList")]
     addi r6,r23,0x44
     stw r0,0x44(r23)
     li r5,0x4
@@ -970,7 +984,7 @@ loc_D50:
     addi r4,r1,0x40
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__changeNodeAnimN")]
     lwz r3,0x14(r25)
-    lfs f1,0x48(r30)
+    lfs f1,animRateChoiceEnumOne(r30)
     lwz r3,0xC(r3)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -983,10 +997,10 @@ loc_D50:
     cmpwi r21,0x0
     lwz r3,0x18(r3)
     bne- loc_DB4
-    lfs f1,0x48(r30)
+    lfs f1,animRateChoiceEnumOne(r30)
     b loc_DB8
 loc_DB4:
-    lfs f1,0x4C(r30)
+    lfs f1,animRateChoiceEnumZero(r30)
 loc_DB8:
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -996,49 +1010,32 @@ loc_DB8:
     addi r4,r1,0x20
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__changeVisAnimN")]
     lwz r0,heapMode(r23)
-    cmpwi r0,0x1
+    cmpwi r0,modeEnumTeam
     bne- loc_DE8
-    lfs f1,0x50(r30)
+    lfs f1,vis0AnimChoicesEnumTeams(r20)
     b loc_E4C
 loc_DE8:
-    cmpwi r0,0x2
+    cmpwi r0,modeEnumBTT
     blt- loc_DF8
-    li r0,-0x1
-    b loc_DFC
+    lfs f1,vis0AnimChoicesEnumInvalid(r20)
+    b loc_E4C
 loc_DF8:
     lwz r0,heapEnemyCount(r23)
-loc_DFC:
-    cmpwi r0,0x2
-    beq- loc_E28
-    bge- loc_E14
-    cmpwi r0,0x1
-    bge- loc_E20
-    b loc_E48
-loc_E14:
-    cmpwi r0,0x4
-    bge- loc_E48
-    b loc_E40
-loc_E20:
-    lfs f1,0x4C(r30)
-    b loc_E4C
-loc_E28:
-    cmpwi r21,0x0
-    bne- loc_E38
-    lfs f1,0x48(r30)
-    b loc_E4C
-loc_E38:
-    lfs f1,0x54(r30)
-    b loc_E4C
-loc_E40:
-    lfs f1,0x58(r30)
-    b loc_E4C
-loc_E48:
-    lfs f1,0x50(r30)
+    cmpwi r21, 0
+    beq 0f
+    cmpwi r0, 2
+    bne 0f
+    lfs f1,vis0AnimChoicesEnumTwoSecond(r20)
+    b 1f
+0:
+    mulli r0, r0, 4
+    lfsx f1, r20, r0
+1f:
 loc_E4C:
     mr r3,r25
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__setFrameVisible")]
     lwz r3,0x14(r25)
-    lfs f1,0x4C(r30)
+    lfs f1,animRateChoiceEnumZero(r30)
     lwz r3,0x8(r3)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -1138,7 +1135,7 @@ loc_F70:
     addi r4,r1,0x40
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__changeNodeAnimN")]
     lwz r3,0x14(r21)
-    lfs f1,0x48(r30)
+    lfs f1,animRateChoiceEnumOne(r30) #1.0
     lwz r3,0xC(r3)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -1148,7 +1145,7 @@ loc_F70:
     addi r4,r1,0x40
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__changeClrAnimN")]
     lwz r3,0x14(r21)
-    lfs f1,0x48(r30)
+    lfs f1,animRateChoiceEnumOne(r30) #1.0
     lwz r3,0x18(r3)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -1160,47 +1157,30 @@ loc_F70:
     lwz r0,heapMode(r23)
     cmpwi r0,modeEnumTeam
     bne- loc_1010
-    lfs f1,0x50(r30)
+    lfs f1,vis0AnimChoicesEnumTeams(r20)
     b loc_1074
 loc_1010:
     cmpwi r0,modeEnumBTT
-    blt- loc_1020
-    li r0,-0x1
-    b loc_1024
-loc_1020:
+    blt- 0f
+    lfs f1,vis0AnimChoicesEnumInvalid(r20)
+    b loc_1074
+0:
     lwz r0,heapEnemyCount(r23)
-loc_1024:
-    cmpwi r0,0x2
-    beq- loc_1050
-    bge- loc_103C
-    cmpwi r0,0x1
-    bge- loc_1048
-    b loc_1070
-loc_103C:
-    cmpwi r0,0x4
-    bge- loc_1070
-    b loc_1068
-loc_1048:
-    lfs f1,0x4C(r30)
-    b loc_1074
-loc_1050:
-    cmpwi r25,0x0
-    bne- loc_1060
-    lfs f1,0x48(r30)
-    b loc_1074
-loc_1060:
-    lfs f1,0x54(r30)
-    b loc_1074
-loc_1068:
-    lfs f1,0x58(r30)
-    b loc_1074
-loc_1070:
-    lfs f1,0x50(r30)
+    cmpwi r21, 0
+    beq 0f
+    cmpwi r0, 2
+    bne 0f
+    lfs f1,vis0AnimChoicesEnumTwoSecond(r20)
+    b 1f
+0:
+    mulli r0, r0, 4
+    lfsx f1, r20, r0
+1f:
 loc_1074:
     mr r3,r21
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__setFrameVisible")]
     lwz r3,0x14(r21)
-    lfs f1,0x4C(r30)
+    lfs f1,animRateChoiceEnumZero(r30)
     lwz r3,0x8(r3)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -1299,7 +1279,7 @@ loc_1194:
     addi r4,r1,0x40
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__changeNodeAnimN")]
     lwz r3,0x14(r21)
-    lfs f1,0x48(r30)
+    lfs f1,animRateChoiceEnumOne(r30)
     lwz r3,0xC(r3)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -1309,7 +1289,7 @@ loc_1194:
     addi r4,r1,0x40
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__changeClrAnimN")]
     lwz r3,0x14(r21)
-    lfs f1,0x48(r30)
+    lfs f1,animRateChoiceEnumOne(r30)
     lwz r3,0x18(r3)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -1318,11 +1298,11 @@ loc_1194:
     mr r3,r21
     addi r4,r1,0x20
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__changeVisAnimN")]
-    lfs f1,0x5C(r30)
+    lfs f1,vis0AnimChoicesEnumAlly(r20)
     mr r3,r21
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__setFrameVisible")]
     lwz r3,0x14(r21)
-    lfs f1,0x4C(r30)
+    lfs f1,animRateChoiceEnumZero(r30)
     lwz r3,0x8(r3)
     lwz r12,0x0(r3)
     lwz r12,0x28(r12)
@@ -1398,11 +1378,11 @@ loc_12FC:
 loc_132C:
     cmpw r21,r29
     blt+ loc_12FC
-    addi r11,r1,0xD0
-    bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___restgpr_21")]
-    lwz r0,0xD4(r1)
+    addi r11,r1,0xD4
+    bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___restgpr_20")]
+    lwz r0,0xD8(r1)
     mtlr r0
-    addi r1,r1,0xD0
+    addi r1,r1,0xD4
     blr
     
 muIntroTask__getEnemyResFileName:

@@ -24,16 +24,28 @@ panelList:
         .byte 0x03, 0x03, 0x1F, 0x00
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "ItrSimplPanel10String")]
         .byte 0x0F, 0x0F, 0x20, 0x00
+
+animRateChoices:
 defaultAnimUpdateRate:
         .float 1.0
 zeroAnimUpdateRate:
         .float 0.0
 
-#appear to be unused
-threeAnimValue:
+
+vis0AnimChoices:
+#one enemy
         .float 3.0
-        .float 2.0
+#two enemys first enemy
+        .float 0.0
+#three enemys
+        .float 1.0
+#invalid enemys
         .float 4.0
+#team of enemys
+        .float 3.0
+#two enemys second enemy
+        .float 2.0
+#ally
         .float 5.0
 magicIntToDouble:
         #.double 4503601774854144.0 but thats sorta ugly
