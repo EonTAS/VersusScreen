@@ -23,8 +23,15 @@ loadIntroScene:
   lis r14, 0x805A
   lwz r14, 0xE0(r14)
   lwz r14, 0x10(r14)
-  #r4 = player 1 
+#  0x364 = how many opponents there are
+  li r0, 0
+  stw r0, 0x364(r3)
+#  0x380 = num of ally
+  stw r0, 0x380(r3)
+player1:
   lbz r3, 0xA(r14)
+  cmpwi r3, 0x29 #random = just give up
+  beq player2
   lis r12, 0x800a
   ori r12, r12, 0xf80c
   mtctr r12 
@@ -34,8 +41,45 @@ loadIntroScene:
   mtctr r12 
   bctrl 
   stw r3, 0x368(r31)
-  #r4 = player 2
+  lwz r3, 0x364(r31)
+  addi r0, r3, 1
+  stw r0, 0x364(r31)
+player2:
   lbz r3, 0xE(r14)
+  cmpwi r3, 0x29 #random = just give up
+  beq player3
+  lis r12, 0x800a
+  ori r12, r12, 0xf80c
+  mtctr r12 
+  bctrl 
+  lis r12, 0x800a
+  ori r12, r12, 0xf5B4
+  mtctr r12 
+  bctrl 
+  stw r3, 0x384(r31)
+  lwz r3, 0x380(r31)
+  addi r0, r3, 1
+  stw r0, 0x380(r31)
+player3:
+  lbz r3, 0x12(r14)
+  cmpwi r3, 0x29 #random = just give up
+  beq player4
+  lis r12, 0x800a
+  ori r12, r12, 0xf80c
+  mtctr r12 
+  bctrl 
+  lis r12, 0x800a
+  ori r12, r12, 0xf5B4
+  mtctr r12 
+  bctrl 
+  stw r3, 0x38C(r31)
+  lwz r3, 0x380(r31)
+  addi r0, r3, 1
+  stw r0, 0x380(r31)
+player4:
+  lbz r3, 0x16(r14)
+  cmpwi r3, 0x29 #random = just give up
+  beq end
   lis r12, 0x800a
   ori r12, r12, 0xf80c
   mtctr r12 
@@ -45,51 +89,17 @@ loadIntroScene:
   mtctr r12 
   bctrl 
   stw r3, 0x370(r31)
-  #r4 = player 3
-  lbz r7, 0x12(r14)
-  #r4 = player 4
-  lbz r8, 0x16(r14)
-  mr r3, r31
+  lwz r3, 0x364(r31)
+  addi r0, r3, 1
+  stw r0, 0x364(r31)
+end:
 #  0x35C = stage num
-  li r0, 0
-  stw r0, 0x35C(r3)
+  li r0, 0x0
+  stw r0, 0x35C(r31)
 #  0x360 = team "blank" where blank is 
-  stw r0, 0x360(r3)
-
-#  0x364 = how many opponents there are
-  li r0, 2
-  stw r0, 0x364(r3)
-
-#  0x368 = first enemy ID
-#  li r0, 2
-#  stw r0, 0x368(r3)
-
-#  0x36C = enemy type, 0 | 1 = 1v2, 2 = giant, 3 = metal
   li r0, 0
-  stw r0, 0x36C(r3)
-
-##  0x370 = second enemy ID
-#  li r0, 1
-#  stw r6, 0x370(r3)
-
-#  0x374 = second type
-  li r0, 0
-  stw r0, 0x374(r3)
-
-#  0x378 = third enemy ID
-  stw r0, 0x378(r3)
-#  0x37C = third enemy type
-  stw r0, 0x37C(r3)
-#  0x380 = num of ally
-  stw r0, 0x380(r3)
-#  0x384 = ally ID
-  stw r0, 0x384(r3)
-#  0x388 = ally type
-  stw r0, 0x388(r3)
-#  0x38C = second ally
-  stw r0, 0x38C(r3)
-#  0x390 = second ally type
-  stw r0, 0x390(r3)
+  stw r0, 0x360(r31)
+  
 
   lwz r3, 0x14(r15)
   lis r4, 0x8070
@@ -99,7 +109,7 @@ loadIntroScene:
   ori r12, r12, 0xD5AC
   mtctr r12
   bctrl
-  li r0, 8
+  li r0, 7
   stw r0, 0x8(r15)
 return: 
   lis r12, 0x806D
