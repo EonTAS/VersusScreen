@@ -117,7 +117,72 @@ return:
   mtctr r12 
   bctr 
 }
-Announcer Time fixes [Eon]
+!Announcer Time fixes [Eon]
 word 0x30300000 @ $804559D4 #knuckles announce time set to 0x30 frames
 word 0x30300000 @ $80455894 #mewtwo announce time set to 0x30 frames
 word 0x30300000 @ $80455918 #roy announce time set to 0x2A frames
+
+Loop over all slots and get costumes from actual model files, can use this logic to actually render them to the scene later 
+{
+  
+#getSlotManager
+  li r31, 0
+  b slotLoopStart
+slotLoop:
+  lwz r4, 0x50(r3) #getSlotNo/[soHeapModuleImpl]
+  cmpwi r4, -1
+  beq slotLoopNext
+  lbz r3, 0x5a(r3) #getFighterId actual id you know that 0x110 thing
+  lis r12, 0x800a
+  ori r12, r12, 0xf80c
+  mtctr r12 
+  bctrl 
+  lis r12, 0x800a
+  ori r12, r12, 0xf5B4
+  mtctr r12 
+  bctrl 
+
+  lis r3, 0x80B9
+  lwz r3, -0x5930(r3)
+  mulli r0, r31, 4
+  lwzx r3, r3, r0
+  lwz r4, 0x50(r3) #getSlotNo/[soHeapModuleImpl]
+  #lbz r5, 0x5a(r3) #getFighterId actual id you know that 0x110 thing
+  lbz r6, 0x5b(r3) #getFighterColour
+
+  lis r3, 0x80B8
+  addi r3, r3, 0x7fcc
+  lis r12, 0x8085
+  ori r12, r12, 0x0144
+  mtctr r12 
+  bctrl #    bl getModelResId/[ftCommonDataAccesser]
+  cmplwi r3, 0xFFFF
+  mr r30, r3
+  beq slotLoopNext
+  li r3, 0
+  lis r12, 0x8077
+  ori r12, r12, 0xA894
+  mtctr r12 
+  bctrl #    bl 0x8077A894 #getManager/[soArchiveDb]
+  mr r4, r30
+  li r5, 2 
+  li r6, 0 #getResourceIdAccesser.getMdlResIndex
+  li r7, 0 # always set to 0 # getGroupNo/[soResourceModuleImpl](1) #getResGroupNo/[ftFighterBuildData] #8089d7c8
+  li r8, -1    
+  lis r12, 0x8004
+  ori r12, r12, 0x65F0
+  mtctr r12 
+  bctrl #    bl 0x800465F0 #getResFileFromId/[utArchiveManager]
+
+slotLoopNext:
+  #stLoaderManager
+  addi r31, r31, 1
+slotLoopStart:
+  cmpwi r31, 4
+  mulli r0, r31, 4
+  lis r3, 0x80B9
+  lwz r3, -0x5930(r3)
+  lwzx r3, r3, r0
+  bne slotLoop
+slotLoopEnd:
+}
