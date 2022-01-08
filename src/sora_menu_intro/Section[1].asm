@@ -60,17 +60,22 @@
 .set heapVoiceSFXID, heapVoiceScript+0x0
 .set heapVoiceSFXLength, heapVoiceScript+0x4
 
-.set animRateChoiceEnumZero = 0x4
-.set animRateChoiceEnumOne = 0x8
+.set animRateChoiceEnumZero, 0x4
+.set animRateChoiceEnumOne, 0x8
 
-.set vis0AnimChoicesEnumInvalid = 0x10
-.set vis0AnimChoicesEnumZero = 0x0
-.set vis0AnimChoicesEnumOne = 0x4
-.set vis0AnimChoicesEnumTwoFirst = 0x8
-.set vis0AnimChoicesEnumTwoSecond = 0x14
-.set vis0AnimChoicesEnumThree = 0xC
-.set vis0AnimChoicesEnumTeams = 0x8
-.set vis0AnimChoicesEnumAlly = 0x18
+.set vis0AnimChoicesEnumInvalid, 0x10
+.set vis0AnimChoicesEnumZero, 0x0
+.set vis0AnimChoicesEnumOne, 0x4
+.set vis0AnimChoicesEnumTwoFirst, 0x8
+.set vis0AnimChoicesEnumTwoSecond, 0x14
+.set vis0AnimChoicesEnumThree, 0xC
+.set vis0AnimChoicesEnumTeams, 0x8
+.set vis0AnimChoicesEnumAlly, 0x18
+
+#versusScreen=.
+.set modeEnumVersus, 0x3
+
+.org 0x0      #relocate found at offset 0x51D0, inside the sora_scene rel object found in common2.pac specifies exactly offset 0x0, so unless i'm modding that, this goes here
 muIntroTask__create:
     stwu r1,-0x50(r1)
     mflr r0
@@ -516,7 +521,7 @@ muIntroTask__makeSoundScript:
     
     lwz r4,heapMode(r3)
     cmpwi r4,modeEnumBTT
-    bge- BTTVoices
+    beq BTTVoices
 VersusVoices:
     lwz r5,heapVoiceScriptCount(r3)
     addi r0,r5,0x1
@@ -534,7 +539,7 @@ VersusVoices:
     lwz r5,heapMode(r3)
     cmpwi r5,modeEnumTeam
     bne- getEnemyCount
-#inTeams
+inTeamsVoice:
     lwz r5,heapVoiceScriptCount(r3)
     addi r5,r5,0x1
     stw r5,heapVoiceScriptCount(r3)
@@ -846,7 +851,7 @@ muIntroTask__loadFiles__end:
     mtlr r0
     addi r1,r1,0xA0
     blr
-
+.org 0xBA4      #relocate found at offset 0x51E4, inside the sora_scene rel object found in common2.pac specifies exactly offset 0xBA4, so unless i'm modding that, this goes here
 muIntroTask__isLoadFinished:
     stwu r1,-0x10(r1)
     mflr r0
@@ -1030,7 +1035,7 @@ loc_DF8:
 0:
     mulli r0, r0, 4
     lfsx f1, r20, r0
-1f:
+1:
 loc_E4C:
     mr r3,r25
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__setFrameVisible")]
@@ -1175,7 +1180,7 @@ loc_1010:
 0:
     mulli r0, r0, 4
     lfsx f1, r20, r0
-1f:
+1:
 loc_1074:
     mr r3,r21
     bl __unresolved                          [R_PPC_REL24(0, 4, "MuObject__setFrameVisible")]
@@ -1326,7 +1331,7 @@ loc_127C:
     cmpwi r24,0x4
     bge- loc_12A0
     b loc_1298
-loc_1288:
+loc_1288: 
     li r26,0x0
     b loc_12A4
 loc_1290:
@@ -1615,6 +1620,7 @@ loc_1650:
 loc_1654:
     cmpwi r0,0x0
     ble- loc_16CC
+#drawAllyString:
     lwz r29,0x9C(r31)
     lwz r28,0x10(r29)
     bl __unresolved                          [R_PPC_REL24(0, 4, "gfSceneManager__getInstance")]
