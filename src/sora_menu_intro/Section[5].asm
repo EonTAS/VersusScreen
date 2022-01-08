@@ -87,7 +87,7 @@ gfSceneHeader:
 muIntroTaskObj:
         .4byte 0x00000000         [R_PPC_ADDR32(13, 5, "muIntroTaskHeader")]
         .4byte 0x00000000
-        .4byte 0x00000000         [R_PPC_ADDR32(13, 1, "muIntroTask__dispEnemy")]
+        .4byte 0x00000000         [R_PPC_ADDR32(13, 1, "muIntroTask__processDefault")]
         .4byte 0x00000000         [R_PPC_ADDR32(0, 4, "gfTask__processBegin")]
         .4byte 0x00000000         [R_PPC_ADDR32(0, 4, "gfTask__processAnim")]
         .4byte 0x00000000         [R_PPC_ADDR32(0, 4, "gfTask__processUpdate")]
