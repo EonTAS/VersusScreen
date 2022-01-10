@@ -61,15 +61,15 @@
 .set heapVoiceSFXLength, heapVoiceScript+0x4
 
 .set animRateChoiceEnumZero, 0x4
-.set animRateChoiceEnumOne, 0x8
+.set animRateChoiceEnumOne, 0x0
 
 .set vis0AnimChoicesEnumInvalid, 0x10
 .set vis0AnimChoicesEnumZero, 0x0
-.set vis0AnimChoicesEnumOne, 0x4
+.set vis0AnimChoicesEnumOne, 0x4 
 .set vis0AnimChoicesEnumTwoFirst, 0x8
 .set vis0AnimChoicesEnumTwoSecond, 0x14
 .set vis0AnimChoicesEnumThree, 0xC
-.set vis0AnimChoicesEnumTeams, 0x8
+.set vis0AnimChoicesEnumTeams, 0x10
 .set vis0AnimChoicesEnumAlly, 0x18
 
 #versusScreen=.
@@ -1026,10 +1026,10 @@ loc_DE8:
     b loc_E4C
 loc_DF8:
     lwz r0,heapEnemyCount(r23)
-    cmpwi r21, 0
-    beq 0f
     cmpwi r0, 2
     bne 0f
+    cmpwi r21, 0
+    beq 0f
     lfs f1,vis0AnimChoicesEnumTwoSecond(r20)
     b 1f
 0:
@@ -1171,10 +1171,10 @@ loc_1010:
     b loc_1074
 0:
     lwz r0,heapEnemyCount(r23)
-    cmpwi r21, 0
-    beq 0f
     cmpwi r0, 2
     bne 0f
+    cmpwi r25, 0
+    beq 0f
     lfs f1,vis0AnimChoicesEnumTwoSecond(r20)
     b 1f
 0:
@@ -1402,9 +1402,6 @@ muIntroTask__getEnemyResFileName:
     stw r0,0x34(r1)
     addi r11,r1,0x30
     bl __unresolved                          [R_PPC_REL24(0, 4, "runtime___savegpr_24")]
-#    lis r31,0x0                              [R_PPC_ADDR16_HA(13, 5, "dataSection")]
-#    addi r31,r31,0x0                         [R_PPC_ADDR16_LO(13, 5, "dataSection")]
-    cmpwi r8,0x2
     mr r24,r4
     mr r25,r5
     mr r26,r6
@@ -1412,27 +1409,10 @@ muIntroTask__getEnemyResFileName:
     addi r30,r30,0x0                         [R_PPC_ADDR16_LO(13, 5, "chrString")]
     lis r29,0x0                              [R_PPC_ADDR16_HA(13, 5, "bigChrString")]
     addi r29,r29,0x0                         [R_PPC_ADDR16_LO(13, 5, "bigChrString")]
-    beq- loc_13B4
-    bge- loc_1398
-    cmpwi r8,0x0
-    beq- loc_13A4
-    bge- loc_13AC
-    b loc_13C0
-loc_1398:
-    cmpwi r8,0x4
-    bge- loc_13C0
-    b loc_13BC
-loc_13A4:
-    li r28,0x0
-    b loc_13C0
-loc_13AC:
-    li r28,0x0
-    b loc_13C0
-loc_13B4:
-    li r28,0x1
-    b loc_13C0
-loc_13BC:
-    li r28,0x2
+    li r28, 0
+    cmpwi r8,fighterTypeEnumStandard
+    beq loc_13C0
+    subi r28, r8, 1
 loc_13C0:
     mr r3,r7
     bl __unresolved                          [R_PPC_REL24(0, 4, "loc_800AF600")]
